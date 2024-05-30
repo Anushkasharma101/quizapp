@@ -1,0 +1,123 @@
+.tablePageMain{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.tablePrimarydiv {
+  width: 100%;
+  height: 100%;
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+}
+.tableSeconddiv {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5%;
+}
+
+
+.tableSecondDiv {
+  width: 100%;
+  height: 100%;
+  background-color: #ededed;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.table-heading {
+  width: 100%;
+  height: 10%;
+  margin-top: 5%;
+  text-align: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 50px;
+  font-weight: 600;
+  line-height: 75px;
+  color: #5076ff;
+}
+
+.tablediv {
+  width: 100%;
+  height: 65vh;
+  margin-top: 5%;
+  overflow-x: auto;
+  overflow-y: auto;
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+
+  
+}
+
+.tablediv::-webkit-scrollbar {
+  display: none; 
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-collapse: separate; 
+  border-spacing: 0 10px; 
+  
+  
+}
+
+.heading-row{
+    background-color:#5076FF;
+    border-radius: 10px;
+    
+}
+
+thead th:first-child {
+    border-radius: 10px 0 0 10px;
+  }
+  
+  thead th:last-child {
+    border-radius: 0 10px 10px 0;
+  }
+  
+ 
+
+tbody tr:nth-child(even) {
+    background-color: #B3C4FF;
+    
+  }
+  
+  tbody tr:nth-child(odd) {
+    background-color: inherit;
+  }
+
+th,td{
+  text-align: center;
+  font-family: "Poppins",sans-serif;
+font-size: 16px;
+font-weight: 600;
+line-height: 40px;
+text-align: center;
+
+}
+
+tbody tr td:first-child {
+    border-radius: 10px 0 0 10px;
+  }
+  
+  tbody tr td:last-child {
+    border-radius: 0 10px 10px 0;
+  }
+  
+  
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .editquizbtn,.deletequizbtn,.sharequizbtn,.clicklinktext{
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+  }

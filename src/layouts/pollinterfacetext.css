@@ -1,0 +1,135 @@
+.poll-interface-text {
+    width: 100vw;
+    height: 100vh;
+    background: #041325;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5%;
+  }
+  
+  .poll-interface-content {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0px 0px 30px 0px #00000026;
+    padding: 3%;
+  }
+  
+  .poll_question_numberdiv {
+    font-family: "Poppins", sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 60px;
+    color: #474444;
+  }
+  
+  .poll_top_div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .poll_question_div {
+    width: 100%;
+    margin-top: 2%;
+    font-family: "Poppins", sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 60px;
+    text-align: left;
+    color: #474444;
+  }
+  
+  .poll_timer_div{
+    width: auto;
+    height: auto;
+  }
+  .poll_options_div {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10%;
+    width: 70%; /* You can adjust the width and height as needed */
+    height: 50%;
+    margin-left: 15%;
+    margin-top: 1%;
+  }
+  
+  .poll_option_div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    margin-bottom: 5%;
+    font-family: "Poppins", sans-serif;
+    font-size: 35px;
+    font-weight: 600;
+    line-height: 52.5px;
+    text-align: left;
+    color: #000000;
+    border-radius: 10px;
+    padding: 2%;
+  }
+  
+  .poll_option_div.selected {
+    border: 5px solid #5076FF;
+  }
+  
+  .pollnextbtn{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  
+  @media only screen and (max-width: 480px) {
+    .poll_question_numberdiv,
+    .poll_question_div,
+    .poll_option_div {
+      font-size: 5vw;
+    }
+  
+    .poll_question_div{
+      text-align: center;
+    }
+  
+    .poll_options_div {
+      width: 90%;
+      margin-left: 5%;
+      display: flex;
+      flex-direction: column;
+      gap: 1%;
+    }
+  
+    .poll_option_div {
+      padding: 2%;
+      
+    }
+  
+    .pollnextbtn{
+      margin-top: 7%;
+    }
+  }
+  
+  @media only screen and (min-width: 481px) and (max-width: 768px) {
+    .poll_question_numberdiv,
+    .poll_question_div,
+    .poll_option_div {
+      font-size: 3vw;
+    }
+  }
+  
+  @media only screen and (min-width: 769px) and (max-width: 1024px) {
+    .poll_question_numberdiv,
+    .poll_question_div,
+    .poll_option_div {
+      font-size: 2.5vw;
+    }
+  }
+  
+  

@@ -1,0 +1,197 @@
+.primarydivquizanalytics {
+    width: 100vw;
+    height: 100vh;
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .firstdivquizanalytics {
+    width: 10%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .logoquizanalytics {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Jomhuria", sans-serif;
+    font-size: 70px;
+    font-weight: 400;
+    line-height: 70px;
+    text-align: left;
+    color: #474444;
+  }
+  
+  .secondarydivquizanalytics {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5%;
+  }
+  
+  .dashboardanalytics,
+  .Analyticsanalytics,
+  .CreateQuizanalytics {
+    display: flex;
+    justify-content: center;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 30px;
+    color: #474444;
+    cursor: pointer;
+  }
+  
+  .dashboardanalytics.selected,
+  .Analyticsanalytics.selected,
+  .CreateQuizanalytics.selected {
+    background-color: white;
+    box-shadow: 0px 0px 14px 0px #0000001f;
+  }
+  
+  .thirddivquizanalytics {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10%;
+  }
+  
+  .linedivquizanalytics {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 15%;
+  }
+  
+  .logoutdivquizanalytics { 
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+    text-align: left;
+    color: #474444;
+  }
+  
+  .seconddivquizanalytics {
+    width: 90%;
+    height: 100%;
+    background-color: #ededed;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+  
+  .topquizbarquizanalytics {
+    width: 100%;
+    height: 10%;
+    margin-top: 5%;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .quizdivquizanalytics {
+    font-family: "Poppins", sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 60px;
+    text-align: left;
+    color: #5076ff;
+  }
+  
+  .createdonquizanalytics {
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 22.5px;
+    text-align: left;
+    color: #ff5d01;
+  }
+  
+  .totalimpressionscountquizanalytics {
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 22.5px;
+    color: #ff5d01;
+  }
+  
+  .question-card-analytics {
+    width: 100%;
+    height: 25%;
+    margin-top: 5%;
+  }
+  
+  .question-text-analytics {
+    font-family: "Poppins", sans-serif;
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 45px;
+    text-align: left;
+    color: #000000;
+  }
+  
+  .stats-analytics {
+    width: 100%;
+    height: 70%;
+    padding: 1%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .stat-analytics,
+  .stat1-analytics,
+  .stat2-analytics {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 100%;
+    background-color: white;
+    border-radius: 5px;
+    font-family: "Poppins", sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 45px;
+    text-align: center;
+    color: #474444;
+  }
+  
+  .totalattempted-quiz,
+  .correctly-quiz,
+  .incorrectly-quiz {
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 21px;
+    color: #474444;
+  }
+  .greyline-quiz{
+    width: 100%;
+  }
+  .line-quiz{
+    width: 100%;
+  }
+  .question-list-quizanalytics {
+    height: calc(100% - 20%); 
+    overflow-y: scroll;
+    padding-right: 15px; 
+    -ms-overflow-style: none;  
+    scrollbar-width: none; 
+  }
+
+  .question-list-quizanalytics::-webkit-scrollbar {
+    display: none;  
+  }

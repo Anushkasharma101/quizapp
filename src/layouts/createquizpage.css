@@ -1,0 +1,111 @@
+.modal-quiz {
+    width: 100vw;
+    height: 100vh;
+    background: #000000cf;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 1;
+  }
+  
+  .quiz-content {
+    width: 60%;
+    height: 40%;
+    background-color: #fff;
+    border-radius: 10px;
+   
+  }
+
+  .quizname{
+    width: 80%;
+    height: 20%;
+    margin-top: 5%;
+    margin-left: 10%;
+    margin-right: 10%;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 0px 25px 0px #00000026;
+    border-radius: 10px;
+    font-family: "Poppins",sans-serif;
+    font-size: 25px;
+    font-weight: 500;
+    line-height: 37.5px;
+    color: #9F9F9F;
+    border: none;
+}
+.quizname::placeholder{
+    padding-left: 4%;
+    color:#9F9F9F ;
+}
+
+.quiztype{
+    width: 80%;
+    height: 20%;
+    margin-top: 2%;
+    margin-left: 10%;
+    margin-right: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    font-family: "Poppins",sans-serif;
+    font-size: 25px;
+    font-weight: 500;
+    line-height: 37.5px;
+    color: #9F9F9F;
+}
+
+.quiztypetext{
+  width: 20%;
+}
+.qadiv, .polldiv {
+  width: 25%;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 4px;
+  text-align: center;
+  background: white;
+  box-shadow: 0px 0px 25px 0px #00000026;
+  margin-top: 2%;
+  margin-bottom: 2%;
+
+}
+
+.selected {
+  background-color: #60B84B;
+  color: white;
+}
+
+/* .qadiv,.polldiv{
+    box-shadow: 0px 0px 25px 0px #00000026;
+    width: 30%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+  
+.quiz-buttons{
+      width: 100%;
+      height: 15%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin-top: 5%;
+      gap: 10%;
+  
+  }
+
+  .qadiv.selected, .polldiv.selected {
+    background-color: #60B84B;
+    color: white;
+  }
+  
+  
+  .cancel-shadow {
+      box-shadow: 0px 0px 15px 0px #00000040;
+    }
+    
+  

@@ -1,0 +1,124 @@
+.modal-quizcomplete {
+  width: 100vw;
+  height: 100vh;
+  background: #041325;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3%;
+}
+
+.quiz-complete-content {
+  width: 100%;
+  max-width: 1400px; 
+  height: auto;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 0px 30px 0px #00000026;
+  padding: 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center; 
+}
+
+.quiz-complete-heading {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.4375rem;
+  font-weight: 600;
+  line-height: 3.6563rem;
+  color: #474444;
+  margin-top: 5%;
+}
+
+.quiz-complete-trophy {
+  display: flex;
+  justify-content: center;
+  margin: 2% 0; 
+}
+
+.trophyimg {
+  width: 50%;
+  height: 50%;
+}
+
+.quiz-score {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2% 0; 
+}
+
+.your-scorediv, .your-score {
+  font-family: "Poppins", sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 60px;
+  color: #000000;
+}
+
+.your-score {
+  font-family: "Poppins", sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 60px;
+  color: #60B84B;
+}
+@media (max-width: 1024px) {
+  .quiz-complete-heading {
+    font-size: 2rem;
+    line-height: 3rem;
+    margin-top: 4%;
+  }
+  .trophyimg {
+    width: 30%;
+    height: 30%;
+  }
+  .your-scorediv, .your-score {
+    font-size: 35px;
+    line-height: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .quiz-complete-heading {
+    font-size: 1.75rem;
+    line-height: 2.5rem;
+    margin-top: 3%;
+  }
+  .trophyimg {
+    width: 35%;
+    height: 35%;
+  }
+  .your-scorediv, .your-score {
+    font-size: 30px;
+    line-height: 45px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-quizcomplete{
+    padding: 0;
+  }
+  .quiz-complete-content {
+    padding: 3%;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+  .quiz-complete-heading {
+    font-size: 1.5rem;
+    line-height: 2.25rem;
+    margin-top: 2%;
+  }
+  .trophyimg {
+    width: 100%;
+    height: 100%;
+  }
+  .your-scorediv, .your-score {
+    font-size: 25px;
+    line-height: 40px;
+  }
+}

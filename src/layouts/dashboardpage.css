@@ -1,0 +1,221 @@
+.dashBoardPrimaryDiv {
+  width: 100%;
+  height: 100%;
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+}
+
+.dashBoardSecondDiv {
+  width: 100%;
+  height: 100%;
+  background-color: #ededed;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.initialdiv {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10%;
+  gap: 10%;
+}
+
+.numberofquiz-div,
+.questionscreated-div,
+.totalimpressions {
+  background-color: white;
+  width: 300px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5%;
+}
+
+.countofquiz {
+  color: #ff5d01;
+  display: flex;
+  /* justify-content: center; */
+  gap: 15%;
+  height: 40%;
+  
+}
+
+.numberquiztext {
+  font-family: "Poppins", sans-serif;
+  font-size: 60px;
+  font-weight: 600;
+  line-height: 90px;
+}
+.quiz {
+  font-family: "Poppins", sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 20%;
+  margin-top: 37%;
+}
+.createdsample {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+}
+.created {
+  font-family: "Poppins", sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 45px;
+  color: #ff5d01;
+  width: 40%;
+  height: 100%;
+}
+
+.countofquestions {
+  color: #60b84b;
+  display: flex;
+  justify-content: center;
+  gap: 5%;
+  height: 40%;
+}
+
+.countquestiontext {
+  font-family: "Poppins", sans-serif;
+  font-size: 60px;
+  font-weight: 600;
+  line-height: 90px;
+  color: #60b84b;
+}
+
+.questions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 20%;
+  margin-top: 20%;
+  font-family: "Poppins", sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 45px;
+  color: #60b84b;
+}
+
+.createdsampleques {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+}
+.createdques {
+  font-family: "Poppins", sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 45px;
+  color: #60b84b;
+  width: 80%;
+  height: 100%;
+}
+
+.countofimpressions {
+  color: #5076ff;
+  display: flex;
+  justify-content: center;
+  gap: 5%;
+  height: 40%;
+}
+
+.countimpressionstext {
+  font-family: "Poppins", sans-serif;
+  font-size: 60px;
+  font-weight: 600;
+  line-height: 90px;
+  color: #5076ff;
+}
+
+.total {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 20%;
+  margin-top: 25%;
+  font-family: "Poppins", sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 45px;
+  color: #5076ff;
+}
+
+.createdimpressions {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+}
+.impressions {
+  font-family: "Poppins", sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 45px;
+  color: #5076ff;
+  width: 65%;
+  height: 100%;
+}
+
+.trends{
+   width: 100%;
+   margin-top: 6%;
+   
+}
+
+.trendingquiz{
+  font-family: "Poppins",sans-serif;
+font-size: 35px;
+font-weight: 600;
+line-height: 52.5px;
+text-align: left;
+color: #474444;
+
+}
+
+.grid-container{
+  height: 40%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 16px;
+  margin-top: 3%;
+  overflow-y: auto;
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+
+}
+.grid-container::-webkit-scrollbar {
+  display: none; 
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+
