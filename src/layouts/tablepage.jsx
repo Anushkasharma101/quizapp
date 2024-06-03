@@ -14,7 +14,7 @@ function QuizTable({
 }) {
   const handleCopy = (id) => {
     navigator.clipboard
-      .writeText(`http://localhost:3000/quiz/${id}`)
+      .writeText(`https://quizapp-psi-seven.vercel.app/quiz/${id}`)
       .then(() => {
         toast.success(
           <div style={{ display: "flex", alignItems: "center",fontFamily:'Poppins,sans-serif',fontWeight:"600",fontSize:"16px",lineHeight:"18px",color:"#474444" }}>

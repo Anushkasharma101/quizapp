@@ -8,7 +8,7 @@ import { Bounce } from "react-toastify";
 
 function Quizpublishedpage({url}) {
   const notify = () => {
-    navigator.clipboard.writeText(`http://localhost:3000/quiz/${url}`)
+    navigator.clipboard.writeText(`https://quizapp-psi-seven.vercel.app/quiz/${url}`)
       .then(() => {
         console.log('Text copied to clipboard');
         alert('Text copied to clipboard');
@@ -71,7 +71,7 @@ function Quizpublishedpage({url}) {
           Published!
         </h2>
         <div className="quiz-publish-link">
-          <div className="quiz-publish-link-text">{`http://localhost:3000/quiz/${url}`}</div>
+          <div className="quiz-publish-link-text">{`https://quizapp-psi-seven.vercel.app/quiz/${url}`}</div>
         </div>
         <div className="modal-buttons-publish">
           <Buttongroup
