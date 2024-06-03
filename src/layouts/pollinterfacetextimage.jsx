@@ -70,7 +70,7 @@ const Pollinterfacetextimage = ({ data }) => {
                 {option.text}
               </div>
               <div className="image_option">
-                <img src={`assets/${option.imgUrl}`} alt={`optionimage_${optionIndex}`} className='optionsimage'/>
+                <img src={option.imgUrl} alt={`optionimage_${optionIndex}`} className='optionsimage'/>
               </div>
             </div>
           ))}
