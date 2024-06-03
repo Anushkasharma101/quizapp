@@ -5,6 +5,9 @@ import Createquizpage from "./createquizpage";
 import "./heroDiv.css";
 import Deleteanalyticspage from "./deleteanalyticspage";
 import Createquiztype from "./createquiztype";
+import Quizanalyticspage from "./quizanalyticspage";
+import Editpage from "./editpage";
+
 const HeroDiv = () => {
     const [selectedTab, setSelectedTab] = useState("dashboard");
     const [createQuizSelected,setCreateQuizSelected] = useState(false);
@@ -18,7 +21,7 @@ const HeroDiv = () => {
     const [textButtonActive, setTextButtonActive] = useState(false);
     const [quizName,setQuizName] = useState('');
     const [quizType,setQuizType] = useState('');
-  
+  const [createQuizActive, setCreateQuizActive] = useState(false);
   useEffect(() => {
     // Get the token from localStorage
     const token = localStorage.getItem("token");
@@ -85,12 +88,17 @@ const HeroDiv = () => {
       setCreateQuizSelected(true);
     }
   };
-
+  const logout = () => {
+    localStorage.removeItem('token');
+    window.location.href = '/'; // Redirect to the homepage or login page after logout
+  };
   return (
     <div className="heroParent">
-    {createQuizSelected &&  <Createquizpage setCreateQuizSelected={setCreateQuizSelected} setQuizType={setQuizType} setQuizName={setQuizName} setEditButtonActive={setEditButtonActive} />}
+    {createQuizSelected &&  <Createquizpage setCreateQuizSelected={setCreateQuizSelected} setQuizType={setQuizType} setQuizName={setQuizName} setCreateQuizActive={setCreateQuizActive} />}
     {deleteButtonActive && <Deleteanalyticspage quizId={quizId} setDeleteButtonActive={setDeleteButtonActive} />}
-    {editButtonActive && <Createquiztype quizName={quizName} quizType={quizType} setQuizType={setQuizType}  />}
+    {createQuizActive && <Createquiztype quizName={quizName} quizType={quizType}/>}
+    {editButtonActive && <Editpage quizId={quizId}/>}
+    
     <div className="hero">
       <div className="leftSide">
         <div className="logo">QUIZZIE</div>
@@ -120,10 +128,10 @@ const HeroDiv = () => {
           </div>
         </div>
         <div className="thirddiv">
-          <div className="linediv">
+          <div className="linediv" >
             <img src="assets/line.svg" alt="line" className="lineimg" />
           </div>
-          <div className="logoutdiv">LOGOUT</div>
+          <div className="logoutdiv" onClick={()=>{logout()}}>LOGOUT</div>
         </div>
       </div>
       <div className="rightSide">
@@ -133,12 +141,12 @@ const HeroDiv = () => {
              quizCreated={quizCreated}
                 quizImpression={quizImpression}
                 totalQuestions={totalQuestions}
-             />: <QuizTable tableData={allQuizData}
+             />: (textButtonActive? <Quizanalyticspage quizId={quizId}/>:<QuizTable tableData={allQuizData}
                 setDeleteButtonActive={setDeleteButtonActive}
                 setQuizId={setQuizId}
                 setEditButtonActive={setEditButtonActive}
                 setTextButtonActive={setTextButtonActive}
-             />
+             />)
         }
       </div>
     </div>

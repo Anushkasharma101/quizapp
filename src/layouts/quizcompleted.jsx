@@ -1,10 +1,10 @@
-// Quizcompleted.js
 import React, { useState, useEffect } from 'react';
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
 import './quizcompleted.css';
 
-function Quizcompleted() {
+function Quizcompleted({ correctAnswer }) {
+  console.log("correctAnswer is :-",correctAnswer);
   const [showConfetti, setShowConfetti] = useState(true);
   const { width, height } = useWindowSize();
 
@@ -22,12 +22,12 @@ function Quizcompleted() {
       <div className="quiz-complete-content">
         <h2 className="quiz-complete-heading">Congrats, Quiz is completed!</h2>
         <div className="quiz-complete-trophy">
-          <img src="assets/trophy.png" alt="trophy" className="trophyimg" />
+          <img src="/assets/trophy.png" alt="trophy" className="trophyimg" />
         </div>
         <div className="quiz-score">
           <div className="your-scorediv">Your Score is</div>
           &nbsp;
-          <div className="your-score">03/04</div>
+          <div className="your-score">{correctAnswer}</div>
         </div>
       </div>
     </div>

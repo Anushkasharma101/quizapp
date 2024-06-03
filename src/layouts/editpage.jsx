@@ -1,21 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
-import "./createquiztype.css";
+import "./editpage.css";
 import Buttongroup from "../components/buttongroup";
-import { formatDate } from "../utils/formatdate";
 
-function Createquiztype({ quizName, quizType }) {
+function Editpage({ quizId }) {
+  console.log("quizId:", quizId);
   const [timer, setTimer] = useState("off");
+  const [quizType, setQuizType] = useState("");
   const [optionType, setOptionType] = useState("");
-  const [questions, setQuestions] = useState([
-    {
-      question_name: "",
-      options: [{ text: "", imgUrl: "" }],
-      correct_option: -1,
-    },
-  ]);
+  const [questions, setQuestions] = useState([]);
   const [activeQuestion, setActiveQuestion] = useState(0);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchQuizData = async () => {
+      try {
+        const response = await fetch(`https://quizapp-backend-yctp.onrender.com/quiz/${quizId}`);
+        const data = await response.json();
+        console.log(data);
+        setQuestions(data.questions);
+        // const [optionType, quizType] = data.quiz.quizType.split('-');
+        // setOptionType(optionType);
+        // setQuizType(quizType);
+        setQuizType(data.quiz.quizType.split('-')[1]);
+        setOptionType(data.quiz.quizType.split('-')[0]);
+      } catch (error) {
+        console.error("Error fetching quiz data:", error);
+      }
+
+      ;
+    };
+
+    fetchQuizData();
+  }, [quizId]);
+
 
   const handleAddQuestion = () => {
     if (questions.length < 5) {
@@ -30,6 +48,7 @@ function Createquiztype({ quizName, quizType }) {
       setActiveQuestion(questions.length);
     }
   };
+
 
   const handleRemoveQuestion = (index) => {
     if (questions.length > 1) {
@@ -47,7 +66,7 @@ function Createquiztype({ quizName, quizType }) {
   };
 
   const handleOptionTypeChange = (value) => {
-    setOptionType(value);
+    setQuizType(value);
     const newQuestions = questions.map((q) => ({
       ...q,
       options: q.options.map((opt) => ({
@@ -95,83 +114,6 @@ function Createquiztype({ quizName, quizType }) {
     setTimer(value);
   };
 
-  const handleCreateQuiz = () => {
-    // Validation
-    if (!questions[0].question_name) {
-      setError("Each question must have a question text.");
-      return;
-    }
-    if (!optionType) {
-      setError("You must choose an option type.");
-      return;
-    }
-
-
-    for (const question of questions) {
-      if (question.options.length < 2) {
-        setError("Each question must have at least 2 options.");
-        return;
-      }
-      if (question.correct_option === -1 && quizType === "qna") {
-        setError("Each question must have a correct option selected.");
-        return;
-      }
-    }
-
-    setError(""); // Clear any previous error
-    const durationMapping = { off: 0, "5s": 5, "10s": 10 };
-    let duration = durationMapping[timer];
-    let correct_option = -1;
-
-    if (quizType === "poll") {
-      duration = 0;
-      correct_option = -1;
-    }
-
-    const combinedType = `${quizType}-${
-      optionType === "text-image" ? "textimage" : optionType
-    }`;
-
-    const updatedPostBody = {
-      title: quizName,
-      duration: duration,
-      total_questions: questions.length,
-      date: formatDate(new Date()),
-      quizType: combinedType,
-      questions: questions.map((q) => ({
-        ...q,
-        options: q.options.map((opt) => ({
-          text: opt.text,
-          imgUrl: opt.imgUrl,
-        })),
-        correct_option: quizType === "qna" ? q.correct_option : -1,
-      })),
-    };
-
-    // Make API call to create the quiz
-    const token = localStorage.getItem("token");
-    if (token) {
-      fetch("https://quizapp-backend-yctp.onrender.com/quiz/create-quiz", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedPostBody),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Quiz created successfully:", data);
-          // Navigate to another page or show success message
-        })
-        .catch((error) => {
-          console.error("Error creating quiz:", error);
-        });
-    } else {
-      console.error("Token not found in localStorage");
-    }
-  };
-
   const handleQuestionSelect = (index) => {
     setActiveQuestion(index);
   };
@@ -185,22 +127,55 @@ function Createquiztype({ quizName, quizType }) {
     setQuestions(newQuestions);
   };
 
+  const handleCreateQuiz = () => {
+    // Prepare question updates
+    const questionUpdates = questions.map((q) => ({
+      question_name: q.question_name,
+      options: q.options,
+      polls: [],
+      correct_option: q.correct_option,
+    }));
+
+    // Make API call to update the quiz
+    const token = localStorage.getItem("token");
+    if (token) {
+      fetch(`https://quizapp-backend-yctp.onrender.com/quiz/update/${quizId}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ questionUpdates }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Quiz updated successfully:", data);
+          // Navigate to another page or show success message
+        })
+        .catch((error) => {
+          console.error("Error updating quiz:", error);
+        });
+    } else {
+      console.error("Token not found in localStorage");
+    }
+  };
+
   return (
-    <div className="create-quiz-modal">
-      <div className="create-quiz">
-        <div className="question-selector">
+    <div className="create-quiz-modal-edit">
+      <div className="create-quiz-edit">
+        <div className="question-selector-edit">
           {questions.map((_, i) => (
             <div
               key={i}
-              className={`question-number-container ${
+              className={`question-number-container-edit ${
                 i === activeQuestion ? "active" : ""
               }`}
               onClick={() => handleQuestionSelect(i)}
             >
-              <button className="question-number">{i + 1}</button>
+              <button className="question-number-edit">{i + 1}</button>
               {i > 0 && (
                 <RxCross2
-                  className="closebtn"
+                  className="closebtn-edit"
                   onClick={(e) => {
                     e.stopPropagation(); // Prevent triggering the parent onClick
                     handleRemoveQuestion(i);
@@ -217,45 +192,45 @@ function Createquiztype({ quizName, quizType }) {
           <button
             onClick={handleAddQuestion}
             disabled={questions.length >= 5}
-            className="addquestionbtn"
+            className="addquestionbtn-edit"
           >
             +
           </button>
         </div>
-        <div className="option-type">
-          <div className="optionTypes">Option Type</div>
-          <div className="mainoptions">
-            <label className="text">
+        <div className="option-type-edit">
+          <div className="optionTypes-edit">Option Type</div>
+          <div className="mainoptions-edit">
+            <label className="text-edit">
               <input
-                className="radiobutton"
+                className="radiobutton-edit"
                 type="radio"
                 name={`type`}
                 value="text"
-                checked={optionType === "text"}
+                checked={quizType === "text"}
                 onChange={(e) => handleOptionTypeChange(e.target.value)}
-                disabled={optionType !== "" && optionType !== "text"}
+                disabled={quizType !== "" && quizType !== "text"}
               />
               Text
             </label>
-            <label className="image">
+            <label className="image-edit">
               <input
                 type="radio"
                 name={`type`}
                 value="image"
-                checked={optionType === "image"}
+                checked={quizType === "image"}
                 onChange={(e) => handleOptionTypeChange(e.target.value)}
-                disabled={optionType !== "" && optionType !== "image"}
+                disabled={quizType !== "" && quizType !== "image"}
               />
               Image URL
             </label>
-            <label className="textimage">
+            <label className="textimage-edit">
               <input
                 type="radio"
                 name={`type`}
                 value="text-image"
-                checked={optionType === "text-image"}
+                checked={quizType === "text-image"}
                 onChange={(e) => handleOptionTypeChange(e.target.value)}
-                disabled={optionType !== "" && optionType !== "text-image"}
+                disabled={quizType !== "" && quizType !== "text-image"}
               />
               Text & Image URL
             </label>
@@ -264,22 +239,22 @@ function Createquiztype({ quizName, quizType }) {
         {questions.map(
           (q, i) =>
             i === activeQuestion && (
-              <div key={i} className="question-block">
-                <div className="inputquestiondiv">
+              <div key={i} className="question-block-edit">
+                <div className="inputquestiondiv-edit">
                   <input
-                    className="inputquestion"
+                    className="inputquestion-edit"
                     type="text"
                     placeholder="QnA Question"
                     value={q.question_name}
                     onChange={(e) => handleQuestionChange(i, e.target.value)}
                   />
                 </div>
-                <div className="options-timer">
-                  <div className="options">
+                <div className="options-timer-edit">
+                  <div className="options-edit">
                     {q.options.map((opt, j) => (
                       <div
                         key={j}
-                        className={`option ${
+                        className={`option-edit ${
                           q.correct_option === j ? "correct" : ""
                         }`}
                         style={{
@@ -288,7 +263,7 @@ function Createquiztype({ quizName, quizType }) {
                           color: q.correct_option === j ? "white" : "black",
                         }}
                       >
-                        {quizType === "qna" && (
+                        {optionType === "qna" && (
                           <input
                             type="radio"
                             name={`correct-option-${i}`}
@@ -300,10 +275,10 @@ function Createquiztype({ quizName, quizType }) {
                             }}
                           />
                         )}
-                        {optionType === "text" && (
+                        {quizType === "text" && (
                           <input
                             type="text"
-                            className="optioninputtext"
+                            className="optioninputtext-edit"
                             value={opt.text}
                             placeholder="Text"
                             onChange={(e) =>
@@ -311,10 +286,10 @@ function Createquiztype({ quizName, quizType }) {
                             }
                           />
                         )}
-                        {optionType === "image" && (
+                        {quizType === "image" && (
                           <input
                             type="text"
-                            className="optioninputtext"
+                            className="optioninputtext-edit"
                             value={opt.imgUrl}
                             placeholder="Image URL"
                             onChange={(e) =>
@@ -322,11 +297,11 @@ function Createquiztype({ quizName, quizType }) {
                             }
                           />
                         )}
-                        {optionType === "text-image" && (
+                        {quizType === "text-image" && (
                           <>
                             <input
                               type="text"
-                              className="optioninputtext"
+                              className="optioninputtext-edit"
                               value={opt.text}
                               placeholder="Text"
                               onChange={(e) =>
@@ -335,7 +310,7 @@ function Createquiztype({ quizName, quizType }) {
                             />
                             <input
                               type="text"
-                              className="optioninputtext"
+                              className="optioninputtext-edit"
                               value={opt.imgUrl}
                               placeholder="Image URL"
                               onChange={(e) =>
@@ -351,7 +326,7 @@ function Createquiztype({ quizName, quizType }) {
                         )}
                         {j >= 2 && (
                           <div
-                            className="delete-button"
+                            className="delete-button-edit"
                             onClick={() => handleRemoveOption(i, j)}
                           >
                             <img src="assets/delete.svg" alt="Delete" />
@@ -361,51 +336,51 @@ function Createquiztype({ quizName, quizType }) {
                     ))}
                     {q.options.length < 4 && (
                       <button
-                        className="add-option-button"
+                        className="add-option-button-edit"
                         onClick={() => handleAddOption(i)}
                       >
                         Add Option
                       </button>
                     )}
                   </div>
-                  {quizType === "qna" && (
-                    <div className="timer-settings">
-                      <div className="timer">Timer</div>
+                  {optionType === "qna" && (
+                    <div className="timer-settings-edit">
+                      <div className="timer-edit">Timer</div>
                       <label
-                        className="offdiv"
+                        className="offdiv-edit"
                         style={{
                           backgroundColor: timer === "off" ? "red" : "white",
                           color: timer === "off" ? "white" : "#9f9f9f",
                         }}
                         onClick={() => handleTimerChange("off")}
                       >
-                        <div className="off">Off</div>
+                        <div className="off-edit">Off</div>
                       </label>
                       <label
-                        className="fiveseconddiv"
+                        className="fiveseconddiv-edit"
                         style={{
                           backgroundColor: timer === "5s" ? "red" : "white",
                           color: timer === "5s" ? "white" : "#9f9f9f",
                         }}
                         onClick={() => handleTimerChange("5s")}
                       >
-                        <div className="fivesecond">5 sec</div>
+                        <div className="fivesecond-edit">5 sec</div>
                       </label>
                       <label
-                        className="tenseconddiv"
+                        className="tenseconddiv-edit"
                         style={{
                           backgroundColor: timer === "10s" ? "red" : "white",
                           color: timer === "10s" ? "white" : "#9f9f9f",
                         }}
                         onClick={() => handleTimerChange("10s")}
                       >
-                        <div className="tensecond">10 sec</div>
+                        <div className="tensecond-edit">10 sec</div>
                       </label>
                     </div>
                   )}
                 </div>
                 {error && <div className="error-message">{error}</div>}
-                <div className="quiz-buttons-type">
+                <div className="quiz-buttons-type-edit">
                   <Buttongroup
                     text={"Cancel"}
                     color="#fff"
@@ -415,12 +390,12 @@ function Createquiztype({ quizName, quizType }) {
                     Cancel
                   </Buttongroup>
                   <Buttongroup
-                    text={"Create Quiz"}
+                    text={"Update Quiz"}
                     color="#60B84B"
                     textColor="#fff"
                     onClick={handleCreateQuiz}
                   >
-                    Create Quiz
+                    Update Quiz
                   </Buttongroup>
                 </div>
               </div>
@@ -431,4 +406,5 @@ function Createquiztype({ quizName, quizType }) {
   );
 }
 
-export default Createquiztype;
+export default Editpage;
+

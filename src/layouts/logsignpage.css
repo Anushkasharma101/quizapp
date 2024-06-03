@@ -11,7 +11,7 @@
   width: 100%;
   height: 100%;
   background-color: white;
-  border-radius: 15px;
+  border-radius: 1.5%;
   box-shadow: 0px 0px 30px 0px #00000026;
 }
 
@@ -22,9 +22,9 @@
   justify-content: center;
   margin-top: 3%;
   font-family: "Jomhuria", serif;
-  font-size: 100px;
+  font-size: 700%;
   font-weight: 400;
-  line-height: 100px;
+  line-height: 80%;
   text-align: left;
   color: #474444;
 }
@@ -46,7 +46,7 @@
   gap: 2%;
 }
 .box-shadow {
-  box-shadow: 0px 0px 50px 0px #0019ff3d;
+  box-shadow: 0% 0% 50% 0% #0019ff3d;
 }
 
 .formdiv {
@@ -151,25 +151,6 @@
   border: 1px solid red;
 }
 
-/* .loader {
-  width: 70px;
-  height: 40px;
-  outline: 2px solid #fff;
-  background:
-    radial-gradient(farthest-side,#000 90%,#0000) 0 0/8px 8px no-repeat,
-    linear-gradient(#fff 0 0) 50%/10px 100% no-repeat,
-    conic-gradient(from  90deg at 10px 10px,#0000 90deg,#fff 0),
-    conic-gradient(from -90deg at 60px 30px,#0000 90deg,#fff 0);
-  animation: l2 2s infinite;
-}
-@keyframes l2 {
-  0%    {background-position:0    0   ,50%}
-  12.5% {background-position:50%  0   ,50%}
-  25%   {background-position:50%  100%,50%}
-  37.5% {background-position:100% 100%,50%}
-  50%   {background-position:100% 0   ,50%}
-  62.5% {background-position:50%  0   ,50%}
-  75%   {background-position:50%  100%,50%}
-  82.5% {background-position:0    100%,50%}
-  100%  {background-position:0    0   ,50%}
-} */
+ 
+
+ 

@@ -3,7 +3,7 @@ import "./createquizpage.css";
 import { useNavigate } from "react-router-dom";
 import Buttongroup from "../components/buttongroup";
 
-function Createquizpage({setCreateQuizSelected,setQuizType,setQuizName, setEditButtonActive}) {
+function Createquizpage({setCreateQuizSelected,setQuizType,setQuizName, setCreateQuizActive}) {
 
   const [validationError, setValidationError] = useState("");
 
@@ -29,8 +29,9 @@ function Createquizpage({setCreateQuizSelected,setQuizType,setQuizName, setEditB
 
   const handlecontinueClick = (event) => {
     event.target.classList.add("cancel-shadow");
+    setCreateQuizActive(true);
     setCreateQuizSelected(false);
-    setEditButtonActive(true);
+    // setEditButtonActive(true);
   }
 
   return (

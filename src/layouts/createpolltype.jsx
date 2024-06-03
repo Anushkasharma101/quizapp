@@ -133,43 +133,9 @@ function CreatePoll() {
                 <div className="option-type">
                   <div className="optionTypes">Option Type</div>
                   <div className="mainoptions">
-                    <label className="text">
-                      <input
-                        className="radiobutton"
-                        type="radio"
-                        name={`type-${i}`}
-                        value="text"
-                        checked={q.type === "text"}
-                        onChange={(e) =>
-                          handleOptionTypeChange(i, e.target.value)
-                        }
-                      />
-                      Text
-                    </label>
-                    <label className="image">
-                      <input
-                        type="radio"
-                        name={`type-${i}`}
-                        value="image"
-                        checked={q.type === "image"}
-                        onChange={(e) =>
-                          handleOptionTypeChange(i, e.target.value)
-                        }
-                      />
-                      Image URL
-                    </label>
-                    <label className="textimage">
-                      <input
-                        type="radio"
-                        name={`type-${i}`}
-                        value="text-image"
-                        checked={q.type === "text-image"}
-                        onChange={(e) =>
-                          handleOptionTypeChange(i, e.target.value)
-                        }
-                      />
-                      Text & Image URL
-                    </label>
+                    
+                    
+                    
                   </div>
                 </div>
                 <div className="options">

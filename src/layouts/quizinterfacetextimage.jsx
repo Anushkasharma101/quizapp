@@ -1,97 +1,121 @@
-import React,{useState} from 'react'
+import React, { useState, useEffect } from 'react';
 import Timer from "./timer";
 import { useNavigate } from "react-router-dom";
-
 import Buttongroup from "../components/buttongroup";
+import axios from "axios";
 import './quizinterfacetextimage.css';
+import Quizcompleted from "./quizcompleted";
 
-function Quizinterfacetextimage() {
-  const navigate = useNavigate();
-
-  const [duration, setDuration] = useState(10);
+function Quizinterfacetextimage({ data, duration }) {
+  
+  const totalQuestions = data.questions.length;
   const [selectedOption, setSelectedOption] = useState(null);
-  const [currentQuestion, setCurrentQuestion] = useState(1);
-  const totalQuestions = 5;
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [questionsAttempted, setQuestionsAttempted] = useState([]);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [showQuizCompleted, setShowQuizCompleted] = useState(false);
+
+  useEffect(() => {
+    if (duration === 0) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      handleNextOrSubmit();
+    }, duration * 1000);
+
+    return () => clearTimeout(timer);
+  }, [currentQuestion, duration]);
 
   const handleNextOrSubmit = () => {
-    if (currentQuestion < totalQuestions) {
+    if (currentQuestion < totalQuestions - 1) {
       setCurrentQuestion(currentQuestion + 1);
-      setSelectedOption(null); 
+      setSelectedOption(null);
     } else {
-      navigate('/congratspage')
+      submitQuiz();
     }
   };
-
 
   const handleOptionClick = (index) => {
     setSelectedOption(index);
   };
+
+  const submitQuiz = async () => {
+    const quizId = data.quiz._id;
+    const payload = {
+      questionsAttempted: questionsAttempted.filter(
+        (q) => q.people_answered_correctly !== undefined
+      ),
+    };
+
+    try {
+      const response = await axios.patch(
+        `https://quizapp-backend-yctp.onrender.com/quiz/updateAnalytics/${quizId}`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Quiz analytics updated successfully:", response.data);
+      // After submitting the quiz, navigate to the Congratulations page with the correct number of questions
+      setShowQuizCompleted(true);
+    } catch (error) {
+      console.error("Failed to update quiz analytics:", error);
+    }
+  };
+
+  if (!data || !data.questions || data.questions.length === 0) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="quiz-interface-textimage">
       <div className="quiz-interface-textimage-content">
-      <div className="topp__div">
-        <div className="questionnumber_textimage_div"> 0{currentQuestion}/0{totalQuestions}</div>
-        <div className="timer___div">
-          {/* <button onClick={() => setDuration(10)}>10 Seconds</button>
-          <button onClick={() => setDuration(5)}>5 Seconds</button> */}
-          <Timer duration={duration} />
-        </div>
+        <div className="topp__div">
+          <div className="questionnumber_textimage_div">0{currentQuestion + 1}/0{totalQuestions}</div>
+          {duration > 0 && (
+            <div className="timer___div">
+              <Timer duration={duration} />
+            </div>
+          )}
         </div>
         <div className="question_textimage_div">
-        Your question text comes here, its a sample text.
+          {data.questions[currentQuestion].question_name}
         </div>
         <div className="options_textimage_div">
-          <div className={`option_textimage_div ${selectedOption === 0 ? "selected" : ""}`}
-            onClick={() => handleOptionClick(0)}>
+          {data.questions[currentQuestion].options.map((option, index) => (
+            <div
+              key={option._id}
+              className={`option_textimage_div ${selectedOption === index ? "selected" : ""}`}
+              onClick={() => handleOptionClick(index)}
+            > 
               <div className="text_option">
-                Option 1
+                {option.text}
               </div>
               <div className="image_option">
-              <img src="assets/optionsimage.jpg" alt="optionimage" className='optionsimage'/>
+                <img src={option.imgUrl} alt={`option-${index}`} className="optionsimage" />
               </div>
-          </div>
-          <div  className={`option_textimage_div ${selectedOption === 1 ? "selected" : ""}`}
-            onClick={() => handleOptionClick(1)}>
-              <div className="text_option">
-                Option 2
-              </div>
-              <div className="image_option">
-              <img src="assets/optionsimage.jpg" alt="optionimage" className='optionsimage'/>
-              </div>
-          </div>
-          <div  className={`option_textimage_div ${selectedOption === 2 ? "selected" : ""}`}
-            onClick={() => handleOptionClick(2)}>
-              <div className="text_option">
-                Option 3
-              </div>
-              <div className="image_option">
-              <img src="assets/optionsimage.jpg" alt="optionimage" className='optionsimage'/>
-              </div>
-          </div>
-          <div  className={`option_textimage_div ${selectedOption === 3 ? "selected" : ""}`}
-            onClick={() => handleOptionClick(3)}>
-              <div className="text_option">
-                Option 4
-              </div>
-              <div className="image_option">
-              <img src="assets/optionsimage.jpg" alt="optionimage" className='optionsimage'/>
-              </div>
-          </div>
-          
+            </div>
+          ))}
         </div>
         <div className="nextbtndiv">
-          <Buttongroup text={currentQuestion === totalQuestions ? "SUBMIT" : "NEXT"} 
-          color= "#60B84B" 
-          textColor="#FFFFFF" 
-          onClick={handleNextOrSubmit}/>
+          <Buttongroup
+            text={currentQuestion === totalQuestions - 1 ? "SUBMIT" : "NEXT"}
+            color="#60B84B"
+            textColor="#FFFFFF"
+            onClick={handleNextOrSubmit}
+          />
         </div>
       </div>
+      {showQuizCompleted && (
+        <Quizcompleted
+          correctAnswer={`${correctAnswers}/${totalQuestions}`}
+        />
+      )}
     </div>
   );
 }
 
-
-
-
-
-export default Quizinterfacetextimage
+export default Quizinterfacetextimage;

@@ -1,27 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import Quizinterfaceimages from './quizinterfaceimages';
-import Quizinterfacetext from './quizinterfacetext';
-import Quizinterfacetextimage from './quizinterfacetextimage';
-import Pollinterfaceimage from './pollinterfaceimage';
-import Pollinterfacetext from './pollinterfacetext';
-import Pollinterfacetextimage from './pollinterfacetextimage';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import Quizinterfaceimages from "./quizinterfaceimages";
+import Quizinterfacetext from "./quizinterfacetext";
+import Quizinterfacetextimage from "./quizinterfacetextimage";
+import axios from "axios";
+import Pollinterfacetext from "./pollinterfacetext";
+import Pollinterfaceimage from "./pollinterfaceimage";
+import Pollinterfacetextimage from "./pollinterfacetextimage";
 
 const MainQuizInterface = () => {
   const { id } = useParams();
   const [quizData, setQuizData] = useState(null);
+  const [pollData, setPollData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [impressionUpdated, setImpressionUpdated] = useState(false); // Track if impression has been updated
 
   useEffect(() => {
+    const updateImpression = async () => {
+      console.log("Updating impression...");
+      if (!impressionUpdated) {
+        // Check if impression has already been updated
+        const url = `https://quizapp-backend-yctp.onrender.com/quiz/updateImpression/${id}`;
+
+        try {
+          await axios.patch(
+            url,
+            {},
+            {
+              // Send an empty payload
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          console.log("Impression updated successfully");
+          setImpressionUpdated(true); // Update impression status
+        } catch (error) {
+          console.error("Failed to update impression:", error);
+        }
+      }
+    };
+
+    updateImpression();
+  }, [id, impressionUpdated]); // Add impressionUpdated to dependency array
+
+  useEffect(() => {
+    console.log("Fetching quiz data...");
     fetch(`https://quizapp-backend-yctp.onrender.com/quiz/${id}`)
       .then((response) => response.json())
       .then((data) => {
+        console.log("Quiz data:", data);
         setQuizData(data);
         setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching quiz data:', error);
+        console.error("Error fetching quiz data:", error);
         setError(error);
         setLoading(false);
       });
@@ -39,46 +74,32 @@ const MainQuizInterface = () => {
     return <div>No quiz data found</div>;
   }
 
-  const { quizType } = quizData.quiz;
+  const quizType = quizData.quiz.quizType;
   const questions = quizData.questions || [];
-
-  const determineOptionType = () => {
-    let hasText = false;
-    let hasImage = false;
-
-    questions.forEach(question => {
-      question.options.forEach(option => {
-        if (option.text!=="") hasText = true;
-        if (option.imgUrl!=="") hasImage = true;
-      });
-    });
-
-    if (hasText && hasImage) return 'text-image';
-    if (hasImage) return 'image';
-    return 'text';
-  };
-
-  const optionsType = determineOptionType();
 
   return (
     <>
-      {quizType === 'quizText' ? (
-        optionsType === 'text' ? (
-          <Quizinterfacetext />
-        ) : optionsType === 'image' ? (
-          <Quizinterfaceimages />
-        ) : optionsType === 'text-image' ? (
-          <Quizinterfacetextimage />
-        ) : null
-      ) : quizType === 'poll' ? (
-        optionsType === 'text' ? (
-          <Pollinterfacetext />
-        ) : optionsType === 'image' ? (
-          <Pollinterfaceimage />
-        ) : optionsType === 'text-image' ? (
-          <Pollinterfacetextimage />
-        ) : null
-      ) : null}
+      {(quizType === "qna-text" || quizType === "poll-text") &&(
+        <Quizinterfacetext data={quizData} duration={quizData.quiz.duration} />
+      )}
+      {(quizType === "qna-image" || quizType === "poll-image") && (
+        <Quizinterfaceimages
+          data={quizData}
+          duration={quizData.quiz.duration}
+        />
+      )}
+      {(quizType === "qna-textimage" || quizType === "poll-textimage" ) && (
+        <Quizinterfacetextimage
+          data={quizData}
+          duration={quizData.quiz.duration}
+        />
+      )}
+      {/* {quizType === "poll-text" && <Pollinterfacetext data={pollData} />}
+      {quizType === "poll-image" && <Pollinterfacetext data={pollData} />}
+      {quizType === "poll-text" && <Pollinterfaceimage data={pollData} />}
+      {quizType === "poll-textimage" && (
+        <Pollinterfacetextimage data={pollData} />
+      )} */}
     </>
   );
 };
