@@ -1,77 +1,83 @@
-import React,{useState} from 'react'
-import './pollinterfacetext.css'
+import React, { useState } from 'react';
+import './pollinterfacetext.css';
 import { useNavigate } from 'react-router-dom';
 import Buttongroup from '../components/buttongroup';
 import axios from 'axios';
 
-
-function Pollinterfacetext({data}) {
-  const navigate =  useNavigate();
-  const [selectedOption, setSelectedOption] = useState(null);
+function Pollinterfacetext({ data }) {
+  const navigate = useNavigate();
+  const [selectedOptions, setSelectedOptions] = useState({});
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const totalQuestions = data.questions.length;
 
   const handleNextOrSubmit = () => {
     if (currentQuestion < totalQuestions) {
       setCurrentQuestion(currentQuestion + 1);
-      setSelectedOption(null); 
     } else {
-      submitQuiz();
-       navigate('/thankyoupage')
+      submitPoll();
+      navigate('/thankyoupage');
     }
   };
 
-  const handleOptionClick = (index) => {
-    setSelectedOption(index);
+  const handleOptionClick = (questionId, index) => {
+    setSelectedOptions({ ...selectedOptions, [questionId]: index });
   };
 
-  const submitQuiz = async() => {
-    const quizId =  data.quizId._id;
+  const submitPoll = async () => {
+    const quizId = data.quiz._id;
 
-    try{
+    const questionsAttempted = Object.keys(selectedOptions).map((questionId) => ({
+      _id: questionId,
+      poll: selectedOptions[questionId],
+    }));
+
+    try {
       const response = await axios.patch(
         `https://quizapp-backend-yctp.onrender.com/quiz/updateAnalytics/${quizId}`,
+        { questionsAttempted },
         {
-          headers:{
-            "Content-type": "application/json",
-          }
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
       );
-      console.log("Poll analytics updated successfully",response.data);
-    }catch(error){
-      console.error("Failed to update poll analytics:", error);
+      console.log('Poll analytics updated successfully', response.data);
+    } catch (error) {
+      console.error('Failed to update poll analytics:', error);
     }
-  }
+  };
+
   return (
     <div className="poll-interface-text">
       <div className="poll-interface-content">
-      <div className="poll_top_div">
-        <div className="poll_question_numberdiv">
-        {currentQuestion.toString().padStart(2, "0")}/
-        {totalQuestions.toString().padStart(2, "0")}
+        <div className="poll_top_div">
+          <div className="poll_question_numberdiv">
+            {currentQuestion.toString().padStart(2, '0')}/{totalQuestions.toString().padStart(2, '0')}
+          </div>
         </div>
-      </div>
-        <div className="poll_question_div">
-        {data.questions[currentQuestion - 1].question_name}
-        </div>
+        <div className="poll_question_div">{data.questions[currentQuestion - 1].question_name}</div>
         <div className="poll_options_div">
-         {data.questions[currentQuestion -1 ].options.map((item,index) => (
-          <div
-            className={`poll_option_div ${selectedOption === index ? "selected" : ""}`}
-            onClick={() => handleOptionClick(index)}
-          >{item.text}</div>
-         ))}
+          {data.questions[currentQuestion - 1].options.map((item, index) => (
+            <div
+              key={index}
+              className={`poll_option_div ${selectedOptions[data.questions[currentQuestion - 1]._id] === index ? 'selected' : ''}`}
+              onClick={() => handleOptionClick(data.questions[currentQuestion - 1]._id, index)}
+            >
+              {item.text}
+            </div>
+          ))}
         </div>
         <div className="pollnextbtn">
-          <Buttongroup text={currentQuestion === totalQuestions ? "SUBMIT" : "NEXT"} 
-          color= "#60B84B" 
-          textColor="#FFFFFF" 
-          onClick={handleNextOrSubmit}/>
+          <Buttongroup
+            text={currentQuestion === totalQuestions ? 'SUBMIT' : 'NEXT'}
+            color="#60B84B"
+            textColor="#FFFFFF"
+            onClick={handleNextOrSubmit}
+          />
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Pollinterfacetext
-
+export default Pollinterfacetext;

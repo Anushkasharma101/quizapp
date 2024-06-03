@@ -5,6 +5,7 @@ import Timer from "./timer";
 import Buttongroup from "../components/buttongroup";
 import axios from "axios";
 import Quizcompleted from "./quizcompleted";
+import Thankyoupage from "./thankyoupage";
 
 function Quizinterfacetext({ data, duration }) {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ function Quizinterfacetext({ data, duration }) {
   const [questionsAttempted, setQuestionsAttempted] = useState([]);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [showQuizCompleted, setShowQuizCompleted] = useState(false);
+  const [showThankyoupage,setShowThankYouPage] = useState(false);
   const totalQuestions = data.questions.length;
 
   useEffect(() => {
@@ -26,21 +28,27 @@ function Quizinterfacetext({ data, duration }) {
   }, [currentQuestion, duration]);
 
   const handleNextOrSubmit = () => {
-    if (selectedOption !== null) {
-      const isCorrect =
-        data.questions[currentQuestion - 1].correct_option === selectedOption;
-      if (isCorrect) {
-        setCorrectAnswers(correctAnswers + 1);
-      }
-      setQuestionsAttempted([
-        ...questionsAttempted,
-        {
-          _id: data.questions[currentQuestion - 1]._id,
-          people_answered_correctly: isCorrect,
-        },
-      ]);
+    const isCorrect =
+      selectedOption !== null &&
+      data.questions[currentQuestion - 1].correct_option === selectedOption;
+  
+    const questionId = data.questions[currentQuestion - 1]._id;
+  
+    // Check if the question is already attempted
+    const questionAlreadyAttempted = questionsAttempted.some(
+      (attempt) => attempt._id === questionId
+    );
+  
+    // Add the question attempt only if it's not already attempted
+    if (!questionAlreadyAttempted) {
+      const questionAttempt = {
+        _id: questionId,
+        people_answered_correctly: isCorrect,
+      };
+  
+      setQuestionsAttempted((prev) => [...prev, questionAttempt]);
     }
-
+  
     if (currentQuestion < totalQuestions) {
       setCurrentQuestion(currentQuestion + 1);
       setSelectedOption(null);
@@ -48,19 +56,39 @@ function Quizinterfacetext({ data, duration }) {
       submitQuiz();
     }
   };
-
+  
   const handleOptionClick = (index) => {
-    setSelectedOption(index);
+    const isCorrect =
+      data.questions[currentQuestion - 1].correct_option === index;
+  
+    const questionId = data.questions[currentQuestion - 1]._id;
+  
+    // Check if the question is already attempted
+    const questionAlreadyAttempted = questionsAttempted.some(
+      (attempt) => attempt._id === questionId
+    );
+  
+    // Add the question attempt only if it's not already attempted
+    if (!questionAlreadyAttempted) {
+      const questionAttempt = {
+        _id: questionId,
+        people_answered_correctly: isCorrect,
+      };
+  
+      setSelectedOption(index);
+      setQuestionsAttempted((prev) => [...prev, questionAttempt]);
+    }
   };
 
   const submitQuiz = async () => {
     const quizId = data.quiz._id;
     const payload = {
-      questionsAttempted: questionsAttempted.filter(
-        (q) => q.people_answered_correctly !== undefined
-      ),
+      questionsAttempted: questionsAttempted.map((q) => ({
+        _id: q._id,
+        people_answered_correctly: q.people_answered_correctly,
+      })),
     };
-
+  
     try {
       const response = await axios.patch(
         `https://quizapp-backend-yctp.onrender.com/quiz/updateAnalytics/${quizId}`,
@@ -71,13 +99,13 @@ function Quizinterfacetext({ data, duration }) {
           },
         }
       );
-      console.log("Quiz analytics updated successfully:", response.data);
-      // After submitting the quiz, navigate to the Congratulations page with the correct number of questions
+      console.log("Quiz analytics updated successfully:", payload);
       setShowQuizCompleted(true);
     } catch (error) {
       console.error("Failed to update quiz analytics:", error);
     }
   };
+  
 
   if (!data || !data.questions || data.questions.length === 0) {
     return <div>Loading...</div>;
@@ -104,9 +132,7 @@ function Quizinterfacetext({ data, duration }) {
           {data.questions[currentQuestion - 1].options.map((item, index) => (
             <div
               key={index}
-              className={`option_div ${
-                selectedOption === index ? "selected" : ""
-              }`}
+              className={`option_div ${selectedOption === index ? "selected" : ""}`}
               onClick={() => handleOptionClick(index)}
             >
               {item.text}
@@ -126,7 +152,8 @@ function Quizinterfacetext({ data, duration }) {
         <Quizcompleted
           correctAnswer={`${correctAnswers}/${totalQuestions}`}
         />
-      )}
+      )
+      }
     </div>
   );
 }

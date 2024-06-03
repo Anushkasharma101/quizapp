@@ -11,7 +11,6 @@ import Pollinterfacetextimage from "./pollinterfacetextimage";
 const MainQuizInterface = () => {
   const { id } = useParams();
   const [quizData, setQuizData] = useState(null);
-  const [pollData, setPollData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [impressionUpdated, setImpressionUpdated] = useState(false); // Track if impression has been updated
@@ -79,27 +78,26 @@ const MainQuizInterface = () => {
 
   return (
     <>
-      {(quizType === "qna-text" || quizType === "poll-text") &&(
+      {(quizType === "qna-text") &&(
         <Quizinterfacetext data={quizData} duration={quizData.quiz.duration} />
       )}
-      {(quizType === "qna-image" || quizType === "poll-image") && (
+      {(quizType === "qna-image") && (
         <Quizinterfaceimages
           data={quizData}
           duration={quizData.quiz.duration}
         />
       )}
-      {(quizType === "qna-textimage" || quizType === "poll-textimage" ) && (
+      {(quizType === "qna-textimage" ) && (
         <Quizinterfacetextimage
           data={quizData}
           duration={quizData.quiz.duration}
         />
       )}
-      {/* {quizType === "poll-text" && <Pollinterfacetext data={pollData} />}
-      {quizType === "poll-image" && <Pollinterfacetext data={pollData} />}
-      {quizType === "poll-text" && <Pollinterfaceimage data={pollData} />}
+       {quizType === "poll-text" && <Pollinterfacetext data={quizData} />}
+      {quizType === "poll-image" && <Pollinterfacetext data={quizData} />}
       {quizType === "poll-textimage" && (
-        <Pollinterfacetextimage data={pollData} />
-      )} */}
+        <Pollinterfacetextimage data={quizData} />
+      )} 
     </>
   );
 };

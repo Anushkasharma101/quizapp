@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./logsignpage.css";
@@ -54,6 +53,10 @@ function Homepage() {
       ...prevData,
       [id]: value,
     }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [id]: "", // Clear the error message when user starts typing
+    }));
   };
 
   const validateForm = () => {
@@ -91,7 +94,7 @@ function Homepage() {
   };
 
   const handleSignUpSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     if (validateForm()) {
       await registerUser(formData);
       setApplyShadow({
@@ -99,8 +102,6 @@ function Homepage() {
         logIn: true,
       });
     }
-    console.log("Register");
-   
   };
 
   const handleLogInSubmit = () => {
@@ -114,6 +115,7 @@ function Homepage() {
         });
     }
   };
+
   return (
     <div className="bgdiv">
       <div className="maindiv">
@@ -144,12 +146,11 @@ function Homepage() {
                   <input
                     type="text"
                     id="name"
-                    placeholder="name"
+                    placeholder={errors.name || "name"}
                     className={`nameinput ${errors.name ? "input-error" : ""}`}
                     value={formData.name}
                     onChange={handleInputChange}
                   />
-                  {errors.name && <div className="error">{errors.name}</div>}
                 </div>
               </div>
             )}
@@ -160,12 +161,11 @@ function Homepage() {
                 <input
                   type="email"
                   id="email"
-                  placeholder="email"
+                  placeholder={errors.email || "email"}
                   className={`emailinput ${errors.email ? "input-error" : ""}`}
                   value={formData.email}
                   onChange={handleInputChange}
                 />
-                {errors.email && <div className="error">{errors.email}</div>}
               </div>
             </div>
 
@@ -175,16 +175,13 @@ function Homepage() {
                 <input
                   type="password"
                   id="password"
-                  placeholder="password"
+                  placeholder={errors.password || "password"}
                   className={`passwordinput ${
                     errors.password ? "input-error" : ""
                   }`}
                   value={formData.password}
                   onChange={handleInputChange}
                 />
-                {errors.password && (
-                  <div className="error">{errors.password}</div>
-                )}
               </div>
             </div>
 
@@ -195,16 +192,13 @@ function Homepage() {
                   <input
                     type="password"
                     id="confirmPassword"
-                    placeholder="confirm password"
+                    placeholder={errors.confirmPassword || "confirm password"}
                     className={`confirm-passwordinput ${
                       errors.confirmPassword ? "input-error" : ""
                     }`}
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
                   />
-                  {errors.confirmPassword && (
-                    <div className="error">{errors.confirmPassword}</div>
-                  )}
                 </div>
               </div>
             )}
@@ -214,7 +208,6 @@ function Homepage() {
                 text={applyShadow.signUp ? "Sign Up" : "Log In"}
                 color="#A9BCFF"
                 onClick={applyShadow.signUp ? handleSignUpSubmit : handleLogInSubmit}
-                
               />
             </div>
           </div>
@@ -225,3 +218,4 @@ function Homepage() {
 }
 
 export default Homepage;
+

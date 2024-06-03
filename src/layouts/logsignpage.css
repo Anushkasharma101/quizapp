@@ -1,4 +1,4 @@
-.bgdiv {
+ .bgdiv {
   width: 100vw;
   height: 100vh;
   padding: 5%;
@@ -35,11 +35,12 @@
   margin-top: 2%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .buttondiv {
   width: 40%;
-  height: 100%;
+  height: 50%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -95,9 +96,9 @@
 .password,
 .confirm-password {
   font-family: "Poppins", sans-serif;
-  font-size: 20px;
+  font-size: 120%;
   font-weight: 600;
-  line-height: 30px;
+  line-height: 150%;
   color: #474444;
 }
 
@@ -143,14 +144,29 @@
 
 .error {
   color: red;
-  font-size: 12px;
-  margin-top: 5px;
+  font-size: 5%;
+  margin-top: 5%;
 }
 
 .input-error {
   border: 1px solid red;
 }
 
- 
+.input-error::placeholder{
+  color: red;
+  opacity: 1;
+} 
+
+
+
+
+
 
  
+
+  
+
+
+
+
+   

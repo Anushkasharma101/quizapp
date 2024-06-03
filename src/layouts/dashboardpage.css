@@ -30,7 +30,7 @@
 .questionscreated-div,
 .totalimpressions {
   background-color: white;
-  width: 300px;
+  width: 100%;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -42,7 +42,6 @@
 .countofquiz {
   color: #ff5d01;
   display: flex;
-  /* justify-content: center; */
   gap: 15%;
   height: 40%;
   
@@ -50,13 +49,13 @@
 
 .numberquiztext {
   font-family: "Poppins", sans-serif;
-  font-size: 60px;
+  font-size: 400%;
   font-weight: 600;
   line-height: 90px;
 }
 .quiz {
   font-family: "Poppins", sans-serif;
-  font-size: 30px;
+  font-size: 200%;
   font-weight: 600;
   line-height: 45px;
   display: flex;
@@ -74,7 +73,7 @@
 }
 .created {
   font-family: "Poppins", sans-serif;
-  font-size: 30px;
+  font-size: 200%;
   font-weight: 600;
   line-height: 45px;
   color: #ff5d01;
@@ -92,7 +91,7 @@
 
 .countquestiontext {
   font-family: "Poppins", sans-serif;
-  font-size: 60px;
+  font-size: 400%;
   font-weight: 600;
   line-height: 90px;
   color: #60b84b;
@@ -120,7 +119,7 @@
 }
 .createdques {
   font-family: "Poppins", sans-serif;
-  font-size: 30px;
+  font-size: 200%;
   font-weight: 600;
   line-height: 45px;
   color: #60b84b;
@@ -138,7 +137,7 @@
 
 .countimpressionstext {
   font-family: "Poppins", sans-serif;
-  font-size: 60px;
+  font-size: 400%;
   font-weight: 600;
   line-height: 90px;
   color: #5076ff;
@@ -152,7 +151,7 @@
   height: 20%;
   margin-top: 25%;
   font-family: "Poppins", sans-serif;
-  font-size: 30px;
+  font-size: 200%;
   font-weight: 600;
   line-height: 45px;
   color: #5076ff;
@@ -166,7 +165,7 @@
 }
 .impressions {
   font-family: "Poppins", sans-serif;
-  font-size: 30px;
+  font-size: 200%;
   font-weight: 600;
   line-height: 45px;
   color: #5076ff;
@@ -182,7 +181,7 @@
 
 .trendingquiz{
   font-family: "Poppins",sans-serif;
-font-size: 35px;
+font-size: 250%;
 font-weight: 600;
 line-height: 52.5px;
 text-align: left;
@@ -194,8 +193,8 @@ color: #474444;
   height: 40%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  padding: 16px;
+  gap: 4%;
+  padding: 2%;
   margin-top: 3%;
   overflow-y: auto;
   scrollbar-width: none; 
@@ -206,16 +205,6 @@ color: #474444;
   display: none; 
 }
 
-@media (max-width: 768px) {
-  .grid-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
 
-@media (max-width: 480px) {
-  .grid-container {
-    grid-template-columns: 1fr;
-  }
-}
 
 
