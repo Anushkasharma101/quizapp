@@ -7,6 +7,7 @@ import Deleteanalyticspage from "./deleteanalyticspage";
 import Createquiztype from "./createquiztype";
 import Quizanalyticspage from "./quizanalyticspage";
 import Editpage from "./editpage";
+import Quizpublishedpage from "./quizpublishedpage";
 
 const HeroDiv = () => {
     const [selectedTab, setSelectedTab] = useState("dashboard");
@@ -22,6 +23,8 @@ const HeroDiv = () => {
     const [quizName,setQuizName] = useState('');
     const [quizType,setQuizType] = useState('');
   const [createQuizActive, setCreateQuizActive] = useState(false);
+  const [publishQuizActive, setPublishQuizActive] = useState(false);
+  const [url,setUrl] = useState('');
   useEffect(() => {
     // Get the token from localStorage
     const token = localStorage.getItem("token");
@@ -96,9 +99,10 @@ const HeroDiv = () => {
     <div className="heroParent">
     {createQuizSelected &&  <Createquizpage setCreateQuizSelected={setCreateQuizSelected} setQuizType={setQuizType} setQuizName={setQuizName} setCreateQuizActive={setCreateQuizActive} />}
     {deleteButtonActive && <Deleteanalyticspage quizId={quizId} setDeleteButtonActive={setDeleteButtonActive} />}
-    {createQuizActive && <Createquiztype quizName={quizName} quizType={quizType}/>}
+    {createQuizActive && <Createquiztype quizName={quizName} quizType={quizType} setPublishQuizActive={setPublishQuizActive} setUrl={setUrl} setCreateQuizActive={setCreateQuizActive} />}
     {editButtonActive && <Editpage quizId={quizId}/>}
-    
+    {publishQuizActive && <Quizpublishedpage url={url}/>}
+
     <div className="hero">
       <div className="leftSide">
         <div className="logo">QUIZZIE</div>

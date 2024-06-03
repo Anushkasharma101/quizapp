@@ -87,7 +87,7 @@ function Quizanalyticspage({ quizId }) {
         if(correct_option !== -1){
         const formattedQuestionsData = questions.map((question, index) => ({
           id: index + 1,
-          questionnumberquiz: `Q.${index + 1}`,
+          questionnumberquiz: `${index + 1}`,
           textquiz: question.question_name,
           attemptedquiz: question.people_attempts,
           correctquiz: question.people_answered_correctly,
@@ -98,7 +98,7 @@ function Quizanalyticspage({ quizId }) {
       }else{
           const formattedQuestionsData = questions.map((question, index) => ({
           id: index + 1,
-          questionnumberquiz: `Q.${index + 1}`,
+          questionnumberquiz: `${index + 1}`,
           textquiz: question.question_name,
           polls: question.polls
         }));
@@ -112,7 +112,20 @@ function Quizanalyticspage({ quizId }) {
 
     fetchQuizData();
   }, [correct_option,quizId]);
+  
+  useEffect(() => {
+    const handlePopState = () => {
+      window.location.reload();
+    };
 
+    window.addEventListener("popstate", handlePopState);
+
+    // Cleanup the event listener on unmount
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
+  
   return (
     <>
       <div className="seconddivquizanalytics">

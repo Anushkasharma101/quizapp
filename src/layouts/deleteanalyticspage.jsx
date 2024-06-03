@@ -17,7 +17,7 @@ function Deleteanalyticspage({setDeleteButtonActive,quizId}) {
       })
       .then((response) => {
         console.log("Delete successful:", response.data);
-        alert("Quiz deleted successfully");
+        window.location.reload()
       })
       .catch((error) => {
         console.error("Error deleting quiz:", error);

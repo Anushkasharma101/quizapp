@@ -150,6 +150,7 @@ function Editpage({ quizId }) {
         .then((response) => response.json())
         .then((data) => {
           console.log("Quiz updated successfully:", data);
+          window.location.reload()
           // Navigate to another page or show success message
         })
         .catch((error) => {
@@ -385,7 +386,7 @@ function Editpage({ quizId }) {
                     text={"Cancel"}
                     color="#fff"
                     textColor="#474444"
-                    onClick={() => {}}
+                    onClick={() => {window.location.reload()}}
                   >
                     Cancel
                   </Buttongroup>

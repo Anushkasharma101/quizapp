@@ -4,7 +4,7 @@ import "./createquiztype.css";
 import Buttongroup from "../components/buttongroup";
 import { formatDate } from "../utils/formatdate";
 
-function Createquiztype({ quizName, quizType }) {
+function Createquiztype({ quizName, quizType, setPublishQuizActive, setUrl, setCreateQuizActive }) {
   const [timer, setTimer] = useState("off");
   const [optionType, setOptionType] = useState("");
   const [questions, setQuestions] = useState([
@@ -161,7 +161,11 @@ function Createquiztype({ quizName, quizType }) {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Quiz created successfully:", data);
+          
+          console.log("Quiz created successfully:", data.id);
+          setPublishQuizActive(true);
+          setUrl(data.id);
+          setCreateQuizActive(false);
           // Navigate to another page or show success message
         })
         .catch((error) => {
@@ -410,7 +414,7 @@ function Createquiztype({ quizName, quizType }) {
                     text={"Cancel"}
                     color="#fff"
                     textColor="#474444"
-                    onClick={() => {}}
+                    onClick={() => {window.location.reload();}}
                   >
                     Cancel
                   </Buttongroup>
@@ -432,3 +436,12 @@ function Createquiztype({ quizName, quizType }) {
 }
 
 export default Createquiztype;
+
+
+
+
+
+
+
+
+

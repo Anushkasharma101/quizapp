@@ -6,8 +6,16 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Bounce } from "react-toastify";
 
-function Quizpublishedpage() {
+function Quizpublishedpage({url}) {
   const notify = () => {
+    navigator.clipboard.writeText(`http://localhost:3000/quiz/${url}`)
+      .then(() => {
+        console.log('Text copied to clipboard');
+        alert('Text copied to clipboard');
+      })
+      .catch((err) => {
+        console.error('Could not copy text: ', err);
+      });
     toast.success(
       <div style={{ display: "flex", alignItems: "center" }}>
         <img
@@ -30,6 +38,7 @@ function Quizpublishedpage() {
         icon:false
       }
     );
+    window.location.reload();
   };
   const navigate = useNavigate();
   return (
@@ -54,7 +63,7 @@ function Quizpublishedpage() {
             src="assets/charm_cross.svg"
             alt="closebtn"
             className="closebtnpublish"
-            onClick={() => navigate("/analytics")}
+            onClick={() => {window.location.reload();}}
           />
         </div>
         <h2 className="quiz-publish-heading">
@@ -62,7 +71,7 @@ function Quizpublishedpage() {
           Published!
         </h2>
         <div className="quiz-publish-link">
-          <div className="quiz-publish-link-text">your link is here</div>
+          <div className="quiz-publish-link-text">{`http://localhost:3000/quiz/${url}`}</div>
         </div>
         <div className="modal-buttons-publish">
           <Buttongroup

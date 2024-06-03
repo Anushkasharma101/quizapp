@@ -50,7 +50,6 @@
     align-items: center;
     border-radius: 10px;
     font-family: "Poppins",sans-serif;
-    font-size: 180%;
     font-weight: 500;
     line-height: 37.5px;
     color: #9F9F9F;
@@ -58,6 +57,7 @@
 
 .quiztypetext{
   width: 20%;
+  font-size: 180%;
 }
 .qadiv, .polldiv {
   width: 25%;
@@ -69,10 +69,11 @@
   box-shadow: 0px 0px 25px 0px #00000026;
   margin-top: 2%;
   margin-bottom: 2%;
+  font-size: 180%;
 
 }
 
-.selected {
+.choosen {
   background-color: #60B84B;
   color: white;
 }
