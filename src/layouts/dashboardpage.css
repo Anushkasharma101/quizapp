@@ -2,175 +2,191 @@
   width: 100%;
   height: 100%;
   margin: 0%;
-  padding: 0%;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
 }
 
 .dashBoardSecondDiv {
   width: 100%;
   height: 100%;
   background-color: #ededed;
+  padding-top: 5%;
   padding-left: 10%;
   padding-right: 10%;
 }
+
 
 .initialdiv {
   width: 100%;
   height: 20%;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  margin-top: 10%;
-  gap: 10%;
-}
-
-.numberofquiz-div,
-.questionscreated-div,
-.totalimpressions {
-  background-color: white;
-  width: 100%;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
   gap: 5%;
 }
 
+
+.numberofquiz-div,
+.questionscreated-div,
+.totalimpressions-div {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  gap: 5%;
+  padding-left: 4%;
+  padding-right: 4%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  background-color: #fff;
+}
+
+
+.innernumberofquizdiv{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
 .countofquiz {
+  width: 100%;
+  height: 60%;
   color: #ff5d01;
   display: flex;
-  gap: 15%;
+}
+
+.createdsample{
+  width: 100%;
   height: 40%;
-  
+  font-family: "Poppins", sans-serif;
+  font-size: 200%;
+  font-weight: 600;
+  line-height: 45px;
+  color: #ff5d01;
+
 }
 
 .numberquiztext {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-family: "Poppins", sans-serif;
   font-size: 400%;
   font-weight: 600;
   line-height: 90px;
 }
 .quiz {
-  font-family: "Poppins", sans-serif;
-  font-size: 200%;
-  font-weight: 600;
-  line-height: 45px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 20%;
-  margin-top: 37%;
-}
-.createdsample {
-  width: 100%;
-  height: 20%;
-  display: flex;
-  justify-content: center;
-}
-.created {
-  font-family: "Poppins", sans-serif;
-  font-size: 200%;
-  font-weight: 600;
-  line-height: 45px;
-  color: #ff5d01;
-  width: 40%;
+  width: 60%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 200%;
+  font-weight: 600;
+  line-height: 45px;
+  padding: 2%;
 }
 
-.countofquestions {
-  color: #60b84b;
+
+
+.innernumberofquestionsdiv{
+  width: 100%;
+  height: 100%;
   display: flex;
-  justify-content: center;
-  gap: 5%;
+  flex-direction: column;
+}
+
+
+
+.countofquestions {
+  width: 100%;
+  height: 60%;
+  color: #60B84B;
+  display: flex;
+}
+
+.createdsampleques{
+  width: 100%;
   height: 40%;
+  font-family: "Poppins", sans-serif;
+  font-size: 200%;
+  font-weight: 600;
+  line-height: 45px;
+  color: #60B84B;
+
 }
 
 .countquestiontext {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-family: "Poppins", sans-serif;
   font-size: 400%;
   font-weight: 600;
   line-height: 90px;
-  color: #60b84b;
 }
-
 .questions {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 150%;
+  font-weight: 600;
+  line-height: 45px;
+
+}
+
+.innernumberofimpressionsdiv{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.countofimpressions{
+  width: 100%;
+  height: 60%;
+  color: #5076FF;
+  display: flex;
+}
+
+.countimpressionstext{
+  width: 60%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 20%;
-  margin-top: 20%;
-  font-family: "Poppins", sans-serif;
-  font-size: 30px;
-  font-weight: 600;
-  line-height: 45px;
-  color: #60b84b;
-}
-
-.createdsampleques {
-  width: 100%;
-  height: 20%;
-  display: flex;
-  justify-content: center;
-}
-.createdques {
-  font-family: "Poppins", sans-serif;
-  font-size: 200%;
-  font-weight: 600;
-  line-height: 45px;
-  color: #60b84b;
-  width: 80%;
-  height: 100%;
-}
-
-.countofimpressions {
-  color: #5076ff;
-  display: flex;
-  justify-content: center;
-  gap: 5%;
-  height: 40%;
-}
-
-.countimpressionstext {
   font-family: "Poppins", sans-serif;
   font-size: 400%;
   font-weight: 600;
   line-height: 90px;
-  color: #5076ff;
 }
 
-.total {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 20%;
-  margin-top: 25%;
-  font-family: "Poppins", sans-serif;
-  font-size: 200%;
-  font-weight: 600;
-  line-height: 45px;
-  color: #5076ff;
-}
-
-.createdimpressions {
-  width: 100%;
-  height: 20%;
-  display: flex;
-  justify-content: center;
-}
-.impressions {
-  font-family: "Poppins", sans-serif;
-  font-size: 200%;
-  font-weight: 600;
-  line-height: 45px;
-  color: #5076ff;
-  width: 65%;
+.total{
+  width: 40%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 180%;
+  font-weight: 600;
+  line-height: 45px;
+  padding: 2%;
+}
+
+.createdimpressions{
+  width: 100%;
+  height: 40%;
+  font-family: "Poppins", sans-serif;
+  font-size: 200%;
+  font-weight: 600;
+  line-height: 45px;
+  color: #5076FF;
 }
 
 .trends{
@@ -193,7 +209,7 @@ color: #474444;
   height: 40%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 4%;
+  gap: 3%;
   padding: 2%;
   margin-top: 3%;
   overflow-y: auto;
@@ -205,6 +221,11 @@ color: #474444;
   display: none; 
 }
 
-
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height to center the loader */
+}
 
 

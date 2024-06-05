@@ -5,6 +5,19 @@ import Button from "../components/button";
 import Buttongroup from "../components/buttongroup";
 import registerUser from "../functions/registerUser";
 import loginUser from "../functions/loginUser";
+import { PacmanLoader } from "react-spinners";
+
+
+const loaderStyle = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+  position: "fixed",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  zIndex: 9999
+};
 
 function Homepage() {
   const [applyShadow, setApplyShadow] = useState({
@@ -26,10 +39,10 @@ function Homepage() {
     confirmPassword: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
-
-  const isSignUpPage = location.pathname === "/";
 
   const handleSignUpClick = () => {
     setApplyShadow({
@@ -96,23 +109,31 @@ function Homepage() {
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      await registerUser(formData);
-      setApplyShadow({
-        signUp: false,
-        logIn: true,
-      });
+      setLoading(true);
+      try {
+        await registerUser(formData);
+        setApplyShadow({
+          signUp: false,
+          logIn: true,
+        });
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
-  const handleLogInSubmit = () => {
+  const handleLogInSubmit = async (e) => {
+    e.preventDefault();
     if (validateForm()) {
-      loginUser(formData.email, formData.password)
-        .then(() => {
-          navigate("/dashboard");
-        })
-        .catch((error) => {
-          console.error("Error logging in:", error);
-        });
+      setLoading(true);
+      try {
+        await loginUser(formData.email, formData.password);
+        navigate("/dashboard");
+      } catch (error) {
+        console.error("Error logging in:", error);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -213,6 +234,25 @@ function Homepage() {
           </div>
         </div>
       </div>
+
+      {loading && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          zIndex: 9998
+        }}>
+          <PacmanLoader
+            color="#ffffff"
+            loading={loading}
+            cssOverride={loaderStyle}
+            size={50}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -109,11 +109,11 @@ function Createquizpage({ setCreateQuizSelected, setQuizType, setQuizName, setCr
 
     let errors = {};
     if (!quizName) {
-      errors.quizName = "Please enter a quiz name.";
+      alert("Please enter a valid quiz name");
     }
 
     if (!selectedDiv.qna && !selectedDiv.poll) {
-      errors.quizType = "Please choose a quiz type.";
+      alert("Please select a one quiz type")
     }
 
     if (Object.keys(errors).length > 0) {

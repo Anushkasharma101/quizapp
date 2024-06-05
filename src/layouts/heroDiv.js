@@ -8,6 +8,8 @@ import Createquiztype from "./createquiztype";
 import Quizanalyticspage from "./quizanalyticspage";
 import Editpage from "./editpage";
 import Quizpublishedpage from "./quizpublishedpage";
+import Testing from "./createquiztype";
+import { formatDate } from "../utils/formatdate";
 
 const HeroDiv = () => {
     const [selectedTab, setSelectedTab] = useState("dashboard");
@@ -99,13 +101,15 @@ const HeroDiv = () => {
     <div className="heroParent">
     {createQuizSelected &&  <Createquizpage setCreateQuizSelected={setCreateQuizSelected} setQuizType={setQuizType} setQuizName={setQuizName} setCreateQuizActive={setCreateQuizActive} />}
     {deleteButtonActive && <Deleteanalyticspage quizId={quizId} setDeleteButtonActive={setDeleteButtonActive} />}
-    {createQuizActive && <Createquiztype quizName={quizName} quizType={quizType} setPublishQuizActive={setPublishQuizActive} setUrl={setUrl} setCreateQuizActive={setCreateQuizActive} />}
+    {createQuizActive && <Createquiztype title={quizName} quizMainType={quizType} setPublishQuizActive={setPublishQuizActive} setUrl={setUrl} setCreateQuizActive={setCreateQuizActive} date={formatDate(new Date())} />}
     {editButtonActive && <Editpage quizId={quizId}/>}
     {publishQuizActive && <Quizpublishedpage url={url}/>}
 
     <div className="hero">
       <div className="leftSide">
-        <div className="logo">QUIZZIE</div>
+        <div className="logo">
+        <div className="logotext">QUIZZIE</div>
+        </div>
         <div className="secondarydiv">
           <div
             className={selectedTab === "dashboard" ? "selected" : "nonSelected"}

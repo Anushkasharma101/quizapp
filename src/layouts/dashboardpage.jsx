@@ -1,8 +1,26 @@
 import React, { useEffect, useState } from "react";
 import "./dashboardpage.css";
 import Trendingquizcard from "../components/trendingquizcard";
+import { PacmanLoader } from "react-spinners";
 
-function Dashboardpage({cards,quizImpression,totalQuestions,quizCreated}) {
+function Dashboardpage({ cards, quizImpression, totalQuestions, quizCreated }) {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setLoading(false); 
+    };
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="loader-container">
+        <PacmanLoader loading={loading} />
+      </div>
+    );
+  }
 
   const formatImpressions = (impressions) => {
     if (parseInt(impressions) >= 1000) {
@@ -18,33 +36,37 @@ function Dashboardpage({cards,quizImpression,totalQuestions,quizCreated}) {
       <div className="dashBoardSecondDiv">
         <div className="initialdiv">
           <div className="numberofquiz-div">
-            <div className="countofquiz">
-              <div className="numberquiztext">{quizCreated}</div>
-              <div className="quiz">Quiz</div>
-            </div>
-            <div className="createdsample">
-              <div className="created">Created</div>
+            <div className="innernumberofquizdiv">
+              <div className="countofquiz">
+                <div className="numberquiztext">{quizCreated}</div>
+                <div className="quiz">Quiz</div>
+              </div>
+              <div className="createdsample">Created</div>
             </div>
           </div>
 
-          <div className="questionscreated-div">
-            <div className="countofquestions">
-              <div className="countquestiontext">{totalQuestions}</div>
-              <div className="questions">questions</div>
-            </div>
-            <div className="createdsampleques">
-              <div className="createdques">Created</div>
+         <div className="questionscreated-div">
+            <div className="innernumberofquestionsdiv">
+              <div className="countofquestions">
+                <div className="countquestiontext">{totalQuestions}</div>
+                <div className="questions">questions</div>
+              </div>
+              <div className="createdsampleques">
+                Created
+              </div>
             </div>
           </div>
-          <div className="totalimpressions">
-            <div className="countofimpressions">
-              <div className="countimpressionstext">
-                {formatImpressions(quizImpression)}
+          <div className="totalimpressions-div">
+            <div className="innernumberofimpressionsdiv">
+              <div className="countofimpressions">
+                <div className="countimpressionstext">
+                  {formatImpressions(quizImpression)}
+                </div>
+                <div className="total">Total</div>
               </div>
-              <div className="total">Total</div>
-            </div>
-            <div className="createdimpressions">
-              <div className="impressions">Impressions</div>
+              <div className="createdimpressions">
+                Impressions
+              </div>
             </div>
           </div>
         </div>

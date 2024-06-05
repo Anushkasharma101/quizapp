@@ -45,11 +45,12 @@
   border-radius: 10px;
   background-color: #ededed;
   font-family: "Poppins", sans-serif;
-  font-size: 1.5625rem;
+  font-size: 90%;
   font-weight: 600;
   line-height: 2.3438rem;
   text-align: left;
   color: #474444;
+  overflow: hidden;
 }
 
 .quiz-publish-link-text{
@@ -80,7 +81,6 @@
   position: absolute;
   display: flex;
 }
-
 .tickimg{
   margin-top: 4%;
   margin-bottom: 4%;
@@ -92,6 +92,3 @@
   padding-top: 6%;
 }
 
-ToastContainer{
-  
-}

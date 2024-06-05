@@ -11,7 +11,6 @@ function Quizpublishedpage({url}) {
     navigator.clipboard.writeText(`https://quizapp-psi-seven.vercel.app/quiz/${url}`)
       .then(() => {
         console.log('Text copied to clipboard');
-        alert('Text copied to clipboard');
       })
       .catch((err) => {
         console.error('Could not copy text: ', err);

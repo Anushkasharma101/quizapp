@@ -1,411 +1,533 @@
-import React, { useState, useEffect } from "react";
-import { RxCross2 } from "react-icons/rx";
+import React, { useEffect, useState } from "react";
 import "./editpage.css";
+import axios from "axios";
+import { RxCross2 } from "react-icons/rx";
 import Buttongroup from "../components/buttongroup";
 
-function Editpage({ quizId }) {
-  console.log("quizId:", quizId);
-  const [timer, setTimer] = useState("off");
-  const [quizType, setQuizType] = useState("");
-  const [optionType, setOptionType] = useState("");
-  const [questions, setQuestions] = useState([]);
+const TestingUpdate = ({ quizId }) => {
+  const [createQuizData, setCreateQuizData] = useState([
+    {
+      _id: "",
+      question_name: "",
+      options: [
+        { text: "", imgUrl: "" },
+        { text: "", imgUrl: "" },
+      ],
+      polls: [],
+      correct_option: -1,
+    },
+  ]);
+
   const [activeQuestion, setActiveQuestion] = useState(0);
-  const [error, setError] = useState("");
+  const [quizType, setQuizType] = useState(""); // Default quiz type
+  const [duration, setDuration] = useState(0); // Default duration
+  const [currentIndex, setCurrentIndex] = useState(0); // Current question index
+  const [isTypeSelected, setIsTypeSelected] = useState(false); // Flag for type selection
+  const [typeSelected, setTypeSelected] = useState(0);
+  const [quizMainType, setQuizMainType] = useState("");
 
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
-        const response = await fetch(`https://quizapp-backend-yctp.onrender.com/quiz/${quizId}`);
+        const response = await fetch(
+          `https://quizapp-backend-yctp.onrender.com/quiz/${quizId}`
+        );
         const data = await response.json();
         console.log(data);
-        setQuestions(data.questions);
-        // const [optionType, quizType] = data.quiz.quizType.split('-');
-        // setOptionType(optionType);
-        // setQuizType(quizType);
-        setQuizType(data.quiz.quizType.split('-')[1]);
-        setOptionType(data.quiz.quizType.split('-')[0]);
+        console.log(data);
+        setCreateQuizData(data.questions);
+        setQuizType(data.quiz.quizType.split("-")[1]);
+        setIsTypeSelected(true);
+        setDuration(data.quiz.duration);
+        setTypeSelected(getTypeValue(data.quiz.quizType.split("-")[1]));
+        setQuizMainType(data.quiz.quizType.split("-")[0]);
       } catch (error) {
         console.error("Error fetching quiz data:", error);
       }
-
-      ;
     };
 
     fetchQuizData();
   }, [quizId]);
 
-
-  const handleAddQuestion = () => {
-    if (questions.length < 5) {
-      setQuestions([
-        ...questions,
-        {
-          question_name: "",
-          options: [{ text: "", imgUrl: "" }],
-          correct_option: -1,
-        },
-      ]);
-      setActiveQuestion(questions.length);
+  const getTypeValue = (type) => {
+    switch (type) {
+      case "text":
+        return 0;
+      case "image":
+        return 1;
+      case "text-image":
+        return 2;
+      default:
+        return 0;
     }
   };
 
+  const addQuestions = () => {
+    if (createQuizData.length < 5) {
+      let flag = 0;
+      for (let i = 0; i < createQuizData[currentIndex].options.length; i++) {
+        if (
+          createQuizData[currentIndex].options[i].text === "" &&
+          quizType === "text"
+        ) {
+          flag = 1;
+          alert("Please fill text options!");
+        } else if (
+          createQuizData[currentIndex].options[i].imgUrl === "" &&
+          quizType === "image"
+        ) {
+          flag = 1;
+          alert("Please fill image URL options!");
+        } else if (
+          (createQuizData[currentIndex].options[i].imgUrl === "" ||
+            createQuizData[currentIndex].options[i].text === "") &&
+          quizType === "text-image"
+        ) {
+          flag = 1;
+          alert("Please fill text and image URL options!");
+        }
+      }
+      if (createQuizData[currentIndex].question_name === "") {
+        alert("Enter question");
+      } else if (
+        createQuizData[currentIndex].correct_option === -1 &&
+        quizType === "qna"
+      ) {
+        alert("Select correct option");
+      } else if (flag === 0) {
+        setCreateQuizData((prev) => [
+          ...prev,
+          {
+            _id: "",
+            question_name: "",
+            options: [
+              { text: "", imgUrl: "" },
+              { text: "", imgUrl: "" },
+            ],
+            polls: [],
+            correct_option: -1,
+          },
+        ]);
 
-  const handleRemoveQuestion = (index) => {
-    if (questions.length > 1) {
-      const newQuestions = questions.filter((_, i) => i !== index);
-      setQuestions(newQuestions);
-      setActiveQuestion(Math.max(0, activeQuestion - 1));
+        setCurrentIndex((prev) => prev + 1);
+      }
     }
   };
 
-  const handleQuestionChange = (index, value) => {
-    const newQuestions = questions.map((q, i) =>
-      i === index ? { ...q, question_name: value } : q
-    );
-    setQuestions(newQuestions);
+  const deleteQuestion = (targetIndex) => {
+    const newCreateQuizData = [...createQuizData];
+    newCreateQuizData.splice(targetIndex, 1);
+    setCreateQuizData(newCreateQuizData);
   };
 
-  const handleOptionTypeChange = (value) => {
-    setQuizType(value);
-    const newQuestions = questions.map((q) => ({
-      ...q,
-      options: q.options.map((opt) => ({
-        ...opt,
-        text: value === "image" ? "" : opt.text,
-        imgUrl: value === "text" ? "" : opt.imgUrl,
-      })),
-    }));
-    setQuestions(newQuestions);
+  const deleteOption = (targetIndex) => {
+    if (createQuizData[currentIndex].correct_option === targetIndex) {
+      alert("please don't this option as this is marked as correct option");
+    } else {
+      const newOptions = [...createQuizData[currentIndex].options];
+      newOptions.splice(targetIndex, 1);
+      setCreateQuizData((prevData) => {
+        const updatedData = [...prevData];
+        updatedData[currentIndex] = {
+          ...updatedData[currentIndex],
+          options: newOptions,
+        };
+        return updatedData;
+      });
+    }
   };
 
-  const handleAddOption = (index) => {
-    const newQuestions = questions.map((q, i) =>
-      i === index
-        ? { ...q, options: [...q.options, { text: "", imgUrl: "" }] }
-        : q
-    );
-    setQuestions(newQuestions);
+  const addOption = () => {
+    if (createQuizData[currentIndex].options.length < 4) {
+      setCreateQuizData((prevData) => {
+        const updatedData = [...prevData];
+        updatedData[currentIndex] = {
+          ...updatedData[currentIndex],
+          options: [
+            ...updatedData[currentIndex].options,
+            { text: "", imgUrl: "" },
+          ],
+        };
+        return updatedData;
+      });
+    }
   };
 
-  const handleRemoveOption = (qIndex, oIndex) => {
-    const newQuestions = questions.map((q, i) =>
-      i === qIndex
-        ? { ...q, options: q.options.filter((_, j) => j !== oIndex) }
-        : q
-    );
-    setQuestions(newQuestions);
+  const handleTypeSelection = (type, val) => {
+    if (!isTypeSelected) {
+      // Ensure type can only be selected once
+      setQuizType(type);
+      setTypeSelected(val);
+      setIsTypeSelected(true); // Disable further type changes
+    }
   };
 
-  const handleOptionChange = (qIndex, oIndex, value, field = "text") => {
-    const newQuestions = questions.map((q, i) =>
-      i === qIndex
-        ? {
-            ...q,
-            options: q.options.map((opt, j) =>
-              j === oIndex ? { ...opt, [field]: value } : opt
-            ),
-          }
-        : q
-    );
-    setQuestions(newQuestions);
+  const handleDotClick = (index) => {
+    setCreateQuizData((prevData) => {
+      const updatedData = [...prevData];
+      updatedData[currentIndex].correct_option = index;
+      return updatedData;
+    });
   };
 
-  const handleTimerChange = (value) => {
-    setTimer(value);
+  const handleTimerSelection = (newDuration) => {
+    // setDuration(newDuration); // Update duration state
+  };
+
+  const handleOptionChange = (event, targetIndex) => {
+    const newText = event.target.value;
+    const isTextProperty = event.target.placeholder === "text"; // Check for text input
+
+    setCreateQuizData((prevData) => {
+      const updatedData = [...prevData];
+      const updatedOptions = [...updatedData[currentIndex].options];
+      updatedOptions[targetIndex] = {
+        text: isTextProperty ? newText : updatedOptions[targetIndex].text,
+        imgUrl: !isTextProperty ? newText : updatedOptions[targetIndex].imgUrl,
+      };
+      updatedData[currentIndex] = {
+        ...updatedData[currentIndex],
+        options: updatedOptions,
+      };
+      return updatedData;
+    });
+  };
+
+  const handleQuestionChange = (event) => {
+    const newQuestion = event.target.value;
+    setCreateQuizData((prevData) => {
+      const updatedData = [...prevData];
+      updatedData[currentIndex].question_name = newQuestion;
+      return updatedData;
+    });
   };
 
   const handleQuestionSelect = (index) => {
     setActiveQuestion(index);
   };
 
-  const handleCorrectOptionSelect = (qIndex, oIndex) => {
-    const newQuestions = questions.map((q, i) =>
-      i === qIndex
-        ? { ...q, correct_option: quizType === "qna" ? oIndex : null }
-        : q
-    );
-    setQuestions(newQuestions);
-  };
+  const handleCreateQuiz = async () => {
+    let flag = 0;
+    for (let j = 0; j < createQuizData.length; j++) {
+      for (let i = 0; i < createQuizData[j].options.length; i++) {
+        if (
+          createQuizData[createQuizData.length - 1].options[i].text === "" &&
+          quizType === "text"
+        ) {
+          flag = 1;
+          alert("Please fill text options!");
+        } else if (
+          createQuizData[createQuizData.length - 1].options[i].imgUrl === "" &&
+          quizType === "image"
+        ) {
+          flag = 1;
+          alert("Please fill image URL options!");
+        } else if (
+          (createQuizData[createQuizData.length - 1].options[i].imgUrl === "" ||
+            createQuizData[createQuizData.length - 1].options[i].text === "") &&
+          quizType === "text-image"
+        ) {
+          flag = 1;
+          alert("Please fill text and image URL options!");
+        }
+      }
+    }
+    if (createQuizData[createQuizData.length - 1].question_name === "") {
+      alert("Enter question");
+    } else if (
+      createQuizData[createQuizData.length - 1].correct_option === -1 &&
+      quizType === "qna"
+    ) {
+      alert("Select correct option");
+    } else if (flag === 0) {
+      console.log(createQuizData);
+      try {
+        const token = localStorage.getItem("token");
 
-  const handleCreateQuiz = () => {
-    // Prepare question updates
-    const questionUpdates = questions.map((q) => ({
-      question_name: q.question_name,
-      options: q.options,
-      polls: [],
-      correct_option: q.correct_option,
-    }));
-
-    // Make API call to update the quiz
-    const token = localStorage.getItem("token");
-    if (token) {
-      fetch(`https://quizapp-backend-yctp.onrender.com/quiz/update/${quizId}`, {
-        method: "PATCH",
-        headers: {
+        const headers = {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ questionUpdates }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Quiz updated successfully:", data);
-          window.location.reload()
-          // Navigate to another page or show success message
-        })
-        .catch((error) => {
-          console.error("Error updating quiz:", error);
-        });
-    } else {
-      console.error("Token not found in localStorage");
+        };
+
+        const body = { questionUpdates: createQuizData };
+
+        const response = await axios.patch(
+          `https://quizapp-backend-yctp.onrender.com/quiz/update/${quizId}`,
+          body,
+          { headers }
+        );
+
+        if (response.status === 200) {
+          console.log("Quiz updated successfully:", response.data);
+          // Handle successful update (e.g., display success message)
+        } else {
+          console.error("Error updating quiz:", response);
+          // Handle update error with specific response data (e.g., display error message)
+        }
+      } catch (error) {
+        console.error("Error updating quiz:", error);
+        // Handle general errors (e.g., network issues)
+      }
     }
   };
-
   return (
-    <div className="create-quiz-modal-edit">
-      <div className="create-quiz-edit">
-        <div className="question-selector-edit">
-          {questions.map((_, i) => (
+    <div className="main-createQuizDiv-edit">
+      <div className="subCreateQuizDiv-edit">
+        {/* Question Adding Div */}
+        <div className="parentCircleDiv-edit">
+          {createQuizData.map((_, index) => (
             <div
-              key={i}
-              className={`question-number-container-edit ${
-                i === activeQuestion ? "active" : ""
+              key={index}
+              className={`circleDiv-edit ${
+                index === activeQuestion ? "active" : ""
               }`}
-              onClick={() => handleQuestionSelect(i)}
+              onClick={() => {
+                setCurrentIndex(index);
+                handleQuestionSelect(index);
+              }}
             >
-              <button className="question-number-edit">{i + 1}</button>
-              {i > 0 && (
+              {index + 1}
+              {index > 0 && (
                 <RxCross2
-                  className="closebtn-edit"
+                  className="crossDiv-edit"
                   onClick={(e) => {
                     e.stopPropagation(); // Prevent triggering the parent onClick
-                    handleRemoveQuestion(i);
+                    deleteQuestion(index);
                   }}
                   style={{
                     cursor: "pointer",
-                    color: questions.length <= 1 ? "black" : "inherit",
+                    color: createQuizData.length <= 1 ? "black" : "inherit",
                   }}
-                  disabled={questions.length <= 1}
+                  disabled={createQuizData.length <= 1}
                 />
               )}
             </div>
           ))}
-          <button
-            onClick={handleAddQuestion}
-            disabled={questions.length >= 5}
-            className="addquestionbtn-edit"
+          <div
+            className="addBtn-edit"
+            onClick={addQuestions}
+            disabled={createQuizData.length === 5}
           >
             +
-          </button>
-        </div>
-        <div className="option-type-edit">
-          <div className="optionTypes-edit">Option Type</div>
-          <div className="mainoptions-edit">
-            <label className="text-edit">
-              <input
-                className="radiobutton-edit"
-                type="radio"
-                name={`type`}
-                value="text"
-                checked={quizType === "text"}
-                onChange={(e) => handleOptionTypeChange(e.target.value)}
-                disabled={quizType !== "" && quizType !== "text"}
-              />
-              Text
-            </label>
-            <label className="image-edit">
-              <input
-                type="radio"
-                name={`type`}
-                value="image"
-                checked={quizType === "image"}
-                onChange={(e) => handleOptionTypeChange(e.target.value)}
-                disabled={quizType !== "" && quizType !== "image"}
-              />
-              Image URL
-            </label>
-            <label className="textimage-edit">
-              <input
-                type="radio"
-                name={`type`}
-                value="text-image"
-                checked={quizType === "text-image"}
-                onChange={(e) => handleOptionTypeChange(e.target.value)}
-                disabled={quizType !== "" && quizType !== "text-image"}
-              />
-              Text & Image URL
-            </label>
           </div>
         </div>
-        {questions.map(
-          (q, i) =>
-            i === activeQuestion && (
-              <div key={i} className="question-block-edit">
-                <div className="inputquestiondiv-edit">
+
+        {/* Question Div */}
+        <div key={currentIndex} className="questionInputDiv-edit">
+          <input
+            type="text"
+            className="inputquestion-edit"
+            value={createQuizData[currentIndex].question_name}
+            onChange={(e) => handleQuestionChange(e)}
+            placeholder="Enter Question Here"
+          />
+        </div>
+
+        {/* Type of Questions */}
+        <div className="typeMainDiv-edit">
+          <div className="optionTypes-edit">Option Type</div>
+          <div className="typeSubDiv-edit">
+            <input
+              type="radio"
+              className="dot-edit"
+              checked={typeSelected === 0}
+              onClick={() => handleTypeSelection("text", 0)}
+            />
+            <p className="optiontypetext-edit">Text</p>
+            <input
+              type="radio"
+              className="dot-edit"
+              checked={typeSelected === 1}
+              onClick={() => handleTypeSelection("image", 1)}
+            />
+            <p className="optiontypetext-edit">Image URL</p>
+            <input
+              type="radio"
+              className="dot-edit"
+              checked={typeSelected === 2}
+              onClick={() => handleTypeSelection("textimage", 2)}
+            />
+            <p className="optiontypetext-edit">Text & Image URL</p>
+          </div>
+        </div>
+
+        {/* Options and Timer */}
+        <div className="seperationDiv-edit">
+          <div key={currentIndex} className="OptionMainDiv-edit">
+            {createQuizData[currentIndex].options.map((item, index) => (
+              <div key={index} className="optionSubDiv-edit">
+                {quizMainType !== "poll" && (
                   <input
-                    className="inputquestion-edit"
-                    type="text"
-                    placeholder="QnA Question"
-                    value={q.question_name}
-                    onChange={(e) => handleQuestionChange(i, e.target.value)}
+                    type="radio"
+                    className="dot-edit"
+                    checked={
+                      index === createQuizData[currentIndex].correct_option
+                    }
+                    onClick={() => handleDotClick(index)}
                   />
-                </div>
-                <div className="options-timer-edit">
-                  <div className="options-edit">
-                    {q.options.map((opt, j) => (
-                      <div
-                        key={j}
-                        className={`option-edit ${
-                          q.correct_option === j ? "correct" : ""
-                        }`}
+                )}
+                <div className="inputFieldParent-edit">
+                  {quizType === "text" ? (
+                    <input
+                      className="inputOptionDiv-edit"
+                      type="text"
+                      value={item.text}
+                      placeholder="text"
+                      style={{
+                        backgroundColor:
+                          index === createQuizData[currentIndex].correct_option
+                            ? "#60B84B"
+                            : "white",
+                        color:
+                          index === createQuizData[currentIndex].correct_option
+                            ? "white"
+                            : "#9F9F9F",
+                      }}
+                      onChange={(event) => handleOptionChange(event, index)}
+                    />
+                  ) : quizType === "image" ? (
+                    <input
+                      className="inputOptionDiv-edit"
+                      type="text"
+                      value={item.imgUrl}
+                      placeholder="Image URL"
+                      style={{
+                        backgroundColor:
+                          index === createQuizData[currentIndex].correct_option
+                            ? "#60B84B"
+                            : "white",
+                        color:
+                          index === createQuizData[currentIndex].correct_option
+                            ? "white"
+                            : "#9F9F9F",
+                      }}
+                      onChange={(event) => handleOptionChange(event, index)}
+                    />
+                  ) : (
+                    <div className="input-edit">
+                      <input
+                        className="inputOptionDiv-edit"
+                        type="text"
+                        value={item.text}
+                        placeholder="text"
                         style={{
                           backgroundColor:
-                            q.correct_option === j ? "green" : "transparent",
-                          color: q.correct_option === j ? "white" : "black",
+                            index ===
+                            createQuizData[currentIndex].correct_option
+                              ? "#60B84B"
+                              : "white",
+                          color:
+                            index ===
+                            createQuizData[currentIndex].correct_option
+                              ? "white"
+                              : "#9F9F9F",
                         }}
-                      >
-                        {optionType === "qna" && (
-                          <input
-                            type="radio"
-                            name={`correct-option-${i}`}
-                            checked={q.correct_option === j}
-                            onChange={() => handleCorrectOptionSelect(i, j)}
-                            style={{
-                              backgroundColor:
-                                q.correct_option === j ? "green" : "white",
-                            }}
-                          />
-                        )}
-                        {quizType === "text" && (
-                          <input
-                            type="text"
-                            className="optioninputtext-edit"
-                            value={opt.text}
-                            placeholder="Text"
-                            onChange={(e) =>
-                              handleOptionChange(i, j, e.target.value, "text")
-                            }
-                          />
-                        )}
-                        {quizType === "image" && (
-                          <input
-                            type="text"
-                            className="optioninputtext-edit"
-                            value={opt.imgUrl}
-                            placeholder="Image URL"
-                            onChange={(e) =>
-                              handleOptionChange(i, j, e.target.value, "imgUrl")
-                            }
-                          />
-                        )}
-                        {quizType === "text-image" && (
-                          <>
-                            <input
-                              type="text"
-                              className="optioninputtext-edit"
-                              value={opt.text}
-                              placeholder="Text"
-                              onChange={(e) =>
-                                handleOptionChange(i, j, e.target.value, "text")
-                              }
-                            />
-                            <input
-                              type="text"
-                              className="optioninputtext-edit"
-                              value={opt.imgUrl}
-                              placeholder="Image URL"
-                              onChange={(e) =>
-                                handleOptionChange(
-                                  i,
-                                  j,
-                                  e.target.value,
-                                  "imgUrl"
-                                )
-                              }
-                            />
-                          </>
-                        )}
-                        {j >= 2 && (
-                          <div
-                            className="delete-button-edit"
-                            onClick={() => handleRemoveOption(i, j)}
-                          >
-                            <img src="assets/delete.svg" alt="Delete" />
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                    {q.options.length < 4 && (
-                      <button
-                        className="add-option-button-edit"
-                        onClick={() => handleAddOption(i)}
-                      >
-                        Add Option
-                      </button>
-                    )}
-                  </div>
-                  {optionType === "qna" && (
-                    <div className="timer-settings-edit">
-                      <div className="timer-edit">Timer</div>
-                      <label
-                        className="offdiv-edit"
+                        onChange={(event) => handleOptionChange(event, index)}
+                      />
+                      <input
+                        className="inputOptionDiv-edit"
+                        type="text"
+                        value={item.imgUrl}
+                        placeholder="Image URL"
                         style={{
-                          backgroundColor: timer === "off" ? "red" : "white",
-                          color: timer === "off" ? "white" : "#9f9f9f",
+                          backgroundColor:
+                            index ===
+                            createQuizData[currentIndex].correct_option
+                              ? "#60B84B"
+                              : "white",
+                          color:
+                            index ===
+                            createQuizData[currentIndex].correct_option
+                              ? "white"
+                              : "#9F9F9F",
                         }}
-                        onClick={() => handleTimerChange("off")}
-                      >
-                        <div className="off-edit">Off</div>
-                      </label>
-                      <label
-                        className="fiveseconddiv-edit"
-                        style={{
-                          backgroundColor: timer === "5s" ? "red" : "white",
-                          color: timer === "5s" ? "white" : "#9f9f9f",
-                        }}
-                        onClick={() => handleTimerChange("5s")}
-                      >
-                        <div className="fivesecond-edit">5 sec</div>
-                      </label>
-                      <label
-                        className="tenseconddiv-edit"
-                        style={{
-                          backgroundColor: timer === "10s" ? "red" : "white",
-                          color: timer === "10s" ? "white" : "#9f9f9f",
-                        }}
-                        onClick={() => handleTimerChange("10s")}
-                      >
-                        <div className="tensecond-edit">10 sec</div>
-                      </label>
+                        onChange={(event) => handleOptionChange(event, index)}
+                      />
+                    </div>
+                  )}
+                  {createQuizData[currentIndex].options.length > 2 && (
+                    <div
+                      className="delete-button-edit"
+                      onClick={() => deleteOption(index)}
+                    >
+                      <img src="assets/delete.svg" alt="Delete" />
                     </div>
                   )}
                 </div>
-                {error && <div className="error-message">{error}</div>}
-                <div className="quiz-buttons-type-edit">
-                  <Buttongroup
-                    text={"Cancel"}
-                    color="#fff"
-                    textColor="#474444"
-                    onClick={() => {window.location.reload()}}
-                  >
-                    Cancel
-                  </Buttongroup>
-                  <Buttongroup
-                    text={"Update Quiz"}
-                    color="#60B84B"
-                    textColor="#fff"
-                    onClick={handleCreateQuiz}
-                  >
-                    Update Quiz
-                  </Buttongroup>
-                </div>
               </div>
-            )
-        )}
+            ))}
+            {createQuizData[currentIndex].options.length < 4 && (
+              <button className="add-option-button-edit" onClick={addOption}>
+                Add Option
+              </button>
+            )}
+          </div>
+          {quizMainType === "qna" && (
+            <div className="timerMainDiv-edit">
+              <div className="timer-edit">Timer</div>
+              <label
+                className="offdiv-edit"
+                style={{
+                  backgroundColor: duration === 0 ? "red" : "white",
+                  color: duration === 0 ? "white" : "#9f9f9f",
+                }}
+                onClick={() => handleTimerSelection(0)}
+              >
+                <div className="off-edit">Off</div>
+              </label>
+              <label
+                className="fiveseconddiv-edit"
+                style={{
+                  backgroundColor: duration === 5 ? "red" : "white",
+                  color: duration === 5 ? "white" : "#9f9f9f",
+                }}
+                onClick={() => handleTimerSelection(5)}
+              >
+                <div className="fivesecond-edit">5 sec</div>
+              </label>
+              <label
+                className="tenseconddiv-edit"
+                style={{
+                  backgroundColor: duration === 10 ? "red" : "white",
+                  color: duration === 10 ? "white" : "#9f9f9f",
+                }}
+                onClick={() => handleTimerSelection(10)}
+              >
+                <div className="tensecond-edit">10 sec</div>
+              </label>
+            </div>
+          )}
+        </div>
+
+        {/* Error Message */}
+        {/* {  <div className="error-message">{error}</div>} */}
+
+        {/* Buttons */}
+        <div className="quiz-buttons-type-edit">
+          <Buttongroup
+            text={"Cancel"}
+            color="#fff"
+            textColor="#474444"
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
+            Cancel
+          </Buttongroup>
+          <Buttongroup
+            text={"Update Quiz"}
+            color="#60B84B"
+            textColor="#fff"
+            onClick={() => {
+              handleCreateQuiz();
+              window.location.reload();
+            }}
+          >
+            Update Quiz
+          </Buttongroup>
+        </div>
       </div>
     </div>
   );
-}
+};
 
-export default Editpage;
-
+export default TestingUpdate;

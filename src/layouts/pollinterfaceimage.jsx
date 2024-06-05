@@ -7,7 +7,6 @@ import axios from 'axios';
 
 function Pollinterfaceimage({ data }) {
   const navigate = useNavigate();
-  const [duration, setDuration] = useState(10);
   const [selectedOptions, setSelectedOptions] = useState({});
   const [currentQuestion, setCurrentQuestion] = useState(0); // Updated to start from 0
   const totalQuestions = data.questions.length; // Get total questions from data
@@ -58,7 +57,6 @@ function Pollinterfaceimage({ data }) {
             {currentQuestion + 1}/{totalQuestions}
           </div>
           <div className="poll_timer_div">
-            <Timer duration={duration} />
           </div>
         </div>
         <div className="poll_question_image_div">
@@ -71,7 +69,7 @@ function Pollinterfaceimage({ data }) {
               className={`poll_option_image_div ${selectedOptions[currentQuestion] === optionIndex ? 'selected' : ''}`}
               onClick={() => handleOptionClick(optionIndex)}
             >
-              <img src={`assets/${option.imgUrl}`} alt={`optionimage_${optionIndex}`} className="optionsimage" />
+              <img src={option.imgUrl} alt={`optionimage_${optionIndex}`} className="optionsimage" />
             </div>
           ))}
         </div>

@@ -13,6 +13,8 @@ function Quizinterfaceimages({ data, duration }) {
   const [timeLeft, setTimeLeft] = useState(duration);
 
   useEffect(() => {
+    console.log('i am innnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn');
+    console.log('insideeeeee',data);
     if (timeLeft === 0) {
       handleNextOrSubmit();
     } else {
@@ -68,6 +70,8 @@ function Quizinterfaceimages({ data, duration }) {
 
   const handleOptionClick = (index) => {
     setSelectedOption(index);
+    
+
   };
 
   if (!data || !data.questions || data.questions.length === 0) {
@@ -86,10 +90,10 @@ function Quizinterfaceimages({ data, duration }) {
           </div>
         </div>
         <div className="question_image_div">
-          {data.questions[currentQuestion - 1].question_name}
+          {data.questions[currentQuestion].question_name}
         </div>
         <div className="options_image_div">
-          {data.questions[currentQuestion - 1].options.map((item, index) => (
+          {data.questions[currentQuestion].options.map((item, index) => (
             <div
               key={index}
               className={`option_image_div ${selectedOption === index ? "selected" : ""}`}

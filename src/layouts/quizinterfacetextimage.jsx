@@ -119,3 +119,5 @@ function Quizinterfacetextimage({ data, duration }) {
 }
 
 export default Quizinterfacetextimage;
+
+

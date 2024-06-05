@@ -94,7 +94,7 @@ const MainQuizInterface = () => {
         />
       )}
        {quizType === "poll-text" && <Pollinterfacetext data={quizData} />}
-      {quizType === "poll-image" && <Pollinterfacetext data={quizData} />}
+      {quizType === "poll-image" && <Pollinterfaceimage data={quizData} />}
       {quizType === "poll-textimage" && (
         <Pollinterfacetextimage data={quizData} />
       )} 

@@ -1,268 +1,261 @@
-.create-quiz-modal-edit {
-    width: 100vw;
-    height: 100vh;
-    background: #000000cf;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .create-quiz-edit{
-    width: 50%;
-    height: 80%;
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 3%;
-  }
-  
-  .question-selector-edit {
-    width: 100%;
-    height: 10%;
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .question-number-container-edit {
-    position: relative;
-    margin-right: 2%;
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
-    background-color: #ffffff;
-    box-shadow: 0px 0px 10px 0px #00000026;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    text-align: center;
-  }
-  
-  .question-number-container-edit.active {
-    border: 2px solid #5076ff;
-  }
-  
-  .question-number-edit {
-    width: 100%;
-    height: 100%;
-    font-family: "Poppins", sans-serif;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 58px;
-    color: #9f9f9f;
-    border: none;
-    background: none;
-  }
-  
-  .closebtn-edit {
-    position: absolute;
-    top: 2px;
-    right: -2px;
-    background: none;
-    cursor: pointer;
-  }
-  
-  .addquestionbtn-edit {
-    width: 24.5px;
-    height: 24.5px;
-    border: none;
-    font-size: 60px;
-    background-color: inherit;
-    color: #969696;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    position: relative;
-    left: 9px;
-    gap: 0px;
-    opacity: 1;
-  }
-  
-  
-  
-  .question-block-edit {
-    width: 100%;
-    height: 80%;
-  }
-  
-  .inputquestiondiv-edit {
-    width: 100%;
-    height: 10%;
-    border-radius: 10px;
-    background: #ffffff;
-    box-shadow: 0px 0px 25px 0px #00000026;
-  }
-  
-  .inputquestion-edit {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 10px;
-    padding: 2%;
-  }
-  
-  .inputquestion-edit::placeholder {
-    font-family: "Poppins", sans-serif;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 30px;
-    text-align: left;
-    padding-left: 2%;
-    color: #9f9f9f;
-  }
-  
-  .option-type-edit {
-    width: 100%;
-    height: 10%;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    padding: 0.5%;
-    gap: 3%;
-  }
-  
-  .optionTypes-edit {
-    width: 20%;
-    height: auto;
-    font-family: "Poppins", sans-serif;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 30px;
-    text-align: center;
-    color: #9f9f9f;
-    margin-left: 1.5%;
-  }
-  
-  .mainoptions-edit {
-    width: 75%;
-    height: auto;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .text-edit,
-  .image-edit,
-  .textimage-edit {
-    font-family: "Poppins", sans-serif;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 30px;
-    text-align: center;
-    color: #9f9f9f;
-  }
-  
-  [type="radio"]:checked::before {
-    content: "";
-    display: block;
-    width: 8px;
-    height: 8px;
-    background-color: black;
-    border-radius: 50%;
-    margin: 2px;
-  }
-  
-  .options-timer-edit {
-    display: flex;
-    width: 100%;
-    height: 80%;
-  }
-  
-  .options-edit {
-    width: 75%;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .uldiv {
-    width: 45%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 2%;
-  }
-  
-  .ulmin {
-    height: 80%;
-  }
-  
-  .option-edit {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px;
-    border-radius: 4px;
-    margin-bottom: 5px;
-    background-color: white;
-    width: 100%;
-    box-shadow: 0px 0px 15px 0px #00000026;
-  }
-  
-  .option-edit.correct {
-    background-color:  green;
-    color: white;
-  }
-  
-  .option-edit input[type="radio"] {
-    margin-right: 10px;
-  }
-  
-  .optioninputtext-edit {
-    flex-grow: 1;
-    margin-right: 10px;
-    padding: 2%;
-    border: none;
-    outline: none;
-    box-shadow: 0px 0px 25px 0px #00000026;
-  }
-  
-  .optioninputtext-edit::placeholder {
-    font-family: "Poppins", sans-serif;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 30px;
-    text-align: left;
-  }
-  
-  .delete-button-edit {
-    cursor: pointer;
-  }
-  
-  .add-option-button-edit {
-    width: 80%;
-    height: 20%;
-    background-color: white;
-    border-radius: 10px;
-    border: none;
-    box-shadow: 0px 0px 25px 0px #00000026;
-    font-family: "Poppins", sans-serif;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 30px;
-    text-align: center;
-    color: #9f9f9f;
-  }
-  
-  .timer-settings-edit {
-    width: 20%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .timer-edit {
-    font-family: "Poppins", sans-serif;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 30px;
-    text-align: center;
-    margin-bottom: 5%;
-  }
-  
-  .offdiv-edit,
+.main-createQuizDiv-edit{
+  background-color: black;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.subCreateQuizDiv-edit{
+  width: 50%;
+  height: 80%;
+  background-color: white;
+  padding: 3%;
+  border-radius: 10px;
+}
+.parentCircleDiv-edit{
+  width: 100%;
+  height: 12%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+.circleDiv-edit{
+  position: relative;
+  border-radius: 50%;
+  margin-right: 2%;
+  padding: 6px;
+  height: 7vh;
+  width: 7vh;
+  background-color: #fff;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0px 0px 10px 0px #00000026;
+  font-family: "Poppins", sans-serif;
+  font-size: 120%;
+  font-weight: 500;
+  line-height: 59px;
+  color: #9f9f9f;
+}
+.circleDiv-edit.active{
+  border: 2px solid #5076ff;
+}
+
+.crossDiv-edit{
+  position: absolute;
+top: -1px;
+right: -4px;
+background: none;
+cursor: pointer;
+color: black;
+}
+.addBtn-edit{
+  width: 10%;
+  height: 70%;
+  font-size: 300%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: inherit;
+color: #969696;
+cursor: pointer;
+position: relative;
+opacity: 1;
+}
+
+.questionInputDiv-edit{
+  width: 100%;
+  height: 10%;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0px 0px 25px 0px #00000026;
+}
+.inputquestion-edit{
+  width: 100%;
+height: 100%;
+border: none;
+border-radius: 10px;
+padding: 2%;
+}
+.inputquestion-edit::placeholder {
+  font-family: "Poppins", sans-serif;
+  font-size: 180%;
+  font-weight: 500;
+  line-height: 30px;
+  text-align: left;
+  padding-left: 2%;
+  color: #9f9f9f;
+}
+
+.typeMainDiv-edit{
+  width: 100%;
+height: 10%;
+display: flex;
+justify-content: space-between;
+flex-direction: row;
+padding: 0.5%;
+gap: 3%;
+}
+
+.optionTypes-edit{
+  width: 20%;
+height: auto;
+font-family: "Poppins", sans-serif;
+font-size: 130%;
+font-weight: 500;
+line-height: 30px;
+text-align: center;
+color: #9f9f9f;
+margin-left: 1.5%;
+}
+
+.typeSubDiv-edit{
+  width: 75%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.optiontypetext-edit{
+  display: flex;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+font-size: 20px;
+font-weight: 500;
+line-height: 30px;
+text-align: center;
+color: #9f9f9f;
+}
+
+.seperationDiv-edit{
+  width: 100%;
+  height: 60%;
+  display: flex;
+  justify-content: space-between;
+}  
+
+.OptionMainDiv-edit{
+  width: 70%;
+  height: 100%;
+}
+
+.optionSubDiv-edit{
+  width: 100%;
+  height: 20%;
+  display: flex;
+  align-items: center;
+  gap: 3%;
+
+}
+
+.inputFieldParent-edit{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 3%;
+  border-radius: 10px;
+  padding: 2%;
+
+}
+
+.input-edit{
+  width: 100%;
+  height: 80%;
+  display: flex;
+  gap: 3%;
+}
+
+.inputOptionDiv-edit{
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0px 0px 25px 0px #00000026;
+
+}
+
+.inputOptionDiv-edit::placeholder{
+  font-family: "Poppins", sans-serif;
+  font-size: 150%;
+  font-weight: 500;
+  line-height: 30px;
+  text-align: left;
+  padding-left: 2%;
+  color: #9f9f9f;
+}
+
+.delete-button-edit{
+  cursor: pointer;
+}
+
+.add-option-button-edit{
+  width: 75%;
+  height: 15%;
+  margin-left: 10%;
+  margin-right: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0px 0px 25px 0px #00000026;
+  font-family: "Poppins", sans-serif;
+  font-size: 150%;
+  font-weight: 500;
+  line-height: 30px;
+  text-align: center;
+  color: #9f9f9f;
+}
+
+.timerMainDiv-edit{
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+}
+
+.timer-edit{
+  font-family: "Poppins", sans-serif;
+font-size: 150%;
+font-weight: 500;
+line-height: 30px;
+text-align: center;
+margin-bottom: 5%;
+color: #9F9F9F;
+}
+
+/* .timerSubDiv{
+  width: 35%;
+height: 8%;
+background-color: white;
+border-radius: 10px;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-bottom: 5%;
+box-shadow: 0px 0px 15px 0px #00000026;
+font-family: "Poppins", sans-serif;
+font-size: 90%;
+font-weight: 500;
+line-height: 22.5px;
+text-align: center;
+color: #9F9F9F;
+cursor: pointer;
+} */
+
+.offdiv-edit,
   .fiveseconddiv-edit,
   .tenseconddiv-edit {
     width: 35%;
@@ -285,7 +278,7 @@
     line-height: 22.5px;
     text-align: center;
   }
-  
+
   .quiz-buttons-type-edit {
     width: 100%;
     height: 8%;
@@ -295,11 +288,9 @@
     margin: 1%;
   }
   
-  .timer-settings label {
-    cursor: pointer;
-  }
   
-  .timer-settings label.selected {
-    box-shadow: #d60000;
-  }
   
+  
+  
+
+
